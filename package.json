@@ -1,10 +1,11 @@
 {
-  "name": "@yzt/react-component",
-  "version": "0.0.1",
+  "name": "@yzts/react-component",
+  "version": "0.0.13",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "description": "",
+  "homepage": "https://github.com/mynaner/react-component",
   "license": "MIT",
   "author": "clooe",
   "scripts": {
@@ -14,15 +15,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.0",
-    "@types/node": "^20.11.15",
-    "antd": "^5.13.3",
-    "dayjs": "^1.11.10",
-    "lodash": "^4.17.21",
-    "path": "^0.12.7",
-    "ramda": "^0.29.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@ant-design/icons": ">=5.3.0",
+    "@types/node": ">=20.11.15",
+    "antd": ">=5.13.3",
+    "dayjs": ">=1.11.10",
+    "lodash": ">=4.17.21",
+    "path": ">=0.12.7",
+    "ramda": ">=0.29.1",
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.202",

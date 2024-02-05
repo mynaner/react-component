@@ -1,14 +1,14 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-03 10:53:25
+ * @LastEditTime: 2024-02-05 14:37:47
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
 import { useEffect, useState } from "react";
 
-interface SelectComponentProps<T, P>
-  extends Partial<Omit<SelectProps, "onChange" | "value">> {
+export interface SelectComponentProps<T, P>
+  extends Partial<Omit<SelectProps, "onChange" | "value" | "options">> {
   onChange?: (val: string, e: T) => void;
   value?: any;
   getDataFn?: (params?: P) => Promise<T[]>;
@@ -29,6 +29,7 @@ export const SelectComponent = <T extends object, P = object>(
     fieldNames = { value: "id", label: "name" },
     ...res
   } = props;
+
   const [list, setList] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const onDropdownVisibleChange = async () => {
@@ -50,11 +51,11 @@ export const SelectComponent = <T extends object, P = object>(
   }, []);
 
   return (
-    <Select
+    <Select<T>
       loading={loading}
       // @ts-ignore
       options={list}
-      fieldNames={fieldNames}
+      fieldNames={getTreeData ? undefined : fieldNames}
       onDropdownVisibleChange={onDropdownVisibleChange}
       placeholder={"请选择"}
       {...res}

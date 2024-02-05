@@ -1,22 +1,22 @@
 /*
  * @Date: 2022-06-30 15:21:50
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-02 10:32:06
+ * @LastEditTime: 2024-02-05 10:26:26
  * @FilePath: /yzt-react-component/src/components/AuthCodeComponent/index.tsx
  */
 import { useEffect, useState } from "react";
-import { Row, Col, Input, Button, message } from "antd";
+import { Row, Col, Input, Button, message, InputProps } from "antd";
 
 let timer: NodeJS.Timeout;
 
-export interface AuthCodeComponentProps<T> {
-  value?: string;
-  onChange?: (e: string) => void;
+export interface AuthCodeComponentProps<T> extends InputProps {
+  // value?: string;
+  // onChange?: (e: string) => void;
   getDataFn?: (params?: T) => Promise<boolean | undefined>;
   params?: T;
 }
 export const AuthCodeComponent = <T,>(props: AuthCodeComponentProps<T>) => {
-  const { value, onChange, getDataFn, params } = props;
+  const { getDataFn, params, ...prop } = props;
   const [loading, setLoading] = useState(false);
 
   const [time, setTime] = useState(0);
@@ -49,13 +49,7 @@ export const AuthCodeComponent = <T,>(props: AuthCodeComponentProps<T>) => {
   return (
     <Row gutter={8}>
       <Col span={16}>
-        <Input
-          placeholder="请输入验证码"
-          value={value}
-          onChange={(e) => {
-            onChange?.(e.target.value);
-          }}
-        />
+        <Input placeholder="请输入验证码" {...prop} />
       </Col>
       <Col span={8}>
         <Button loading={loading} disabled={time > 0} onClick={batchStatus}>
