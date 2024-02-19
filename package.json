@@ -1,6 +1,6 @@
 {
   "name": "@yzts/react-component",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@ant-design/icons": ">=5.3.0",
     "@types/node": ">=20.11.15",
+    "ahooks": "^3.7.10",
     "antd": ">=5.13.3",
     "dayjs": ">=1.11.10",
     "lodash": ">=4.17.21",

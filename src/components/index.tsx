@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-02-01 17:42:48
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-05 14:13:53
+ * @LastEditTime: 2024-02-19 10:38:43
  * @FilePath: /yzt-react-component/src/components/index.tsx
  */
 
@@ -22,3 +22,8 @@ export {
   type FormOptionType as YFormOptionType,
   type FormOptionSettingType as YFormOptionSettingType,
 } from "./SearchComponent/type";
+
+export { TablePageLayout as YLayoutTable } from "./TablePageLayout";
+export { type TablePageLayoutRefProps } from "./TablePageLayout";
+
+export { type YColumnType, type YColumnsType } from "./YTableComponent";

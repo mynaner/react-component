@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-04 11:02:31
+ * @LastEditTime: 2024-02-19 17:12:21
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -11,12 +11,14 @@ import { FormOptionSettingType, FormOptionType } from "./type";
 import { isArray, isObject, isString } from "lodash";
 import { YDatePicker, YDatePickerRangePicker, YMoneyInput } from "../index";
 import { isDayjs } from "dayjs";
-interface SearchComponentType<T> {
+
+export interface SearchComponentRefType {
+  onSearch?: () => void;
+  onReset?: () => void;
+}
+export interface SearchComponentType<T> {
   /// 对外暴露的两个方法
-  cRef?: React.MutableRefObject<{
-    onSearch: () => void;
-    onReset: () => void;
-  }>;
+  cRef?: React.MutableRefObject<SearchComponentRefType | undefined>;
   /// 配置
   options: FormOptionType[];
   /// 显示数量,其余收入弹窗里面
@@ -68,23 +70,19 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
             });
           } else {
             element.forEach((e, i) => {
-              if (e) {
-                if (isDayjs(e)) {
-                  values[keys[i]] = e.format("YYYY-MM-DD");
-                } else {
-                  values[keys[i]] = e;
-                }
+              if (isDayjs(e)) {
+                values[keys[i]] = e.format("YYYY-MM-DD");
+              } else {
+                values[keys[i]] = e;
               }
             });
           }
         } else {
           const [k, format] = keys;
-          if (element) {
-            if (isDayjs(element)) {
-              values[k] = element.format(format ?? "YYYY-MM-DD");
-            } else {
-              values[k] = element;
-            }
+          if (isDayjs(element)) {
+            values[k] = element.format(format ?? "YYYY-MM-DD");
+          } else {
+            values[k] = element;
           }
         }
       }
@@ -134,6 +132,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     onSearch: form.submit,
   }));
 
+  if (!optionList.length) return <></>;
   return (
     <Form
       form={form}
@@ -302,9 +301,10 @@ const elementAddProps = (item: FormOptionType, width: string = "100%") => {
   ) {
     prpos.placeholder = "请选择" + (item.label ?? "");
   }
-
   return cloneElement(child, {
-    style: { width: setting?.width ?? prpos.width },
+    style: {
+      width: setting?.width ?? child.props?.["style"]?.["width"] ?? prpos.width,
+    },
     ...prpos,
     ...setting,
   });
