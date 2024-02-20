@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-19 17:12:21
+ * @LastEditTime: 2024-02-19 17:55:03
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -68,6 +68,8 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
                 values[keys[i]] = e.format(keys.at(-1));
               }
             });
+          } else if (keys.length == 1) {
+            values[keys[0]] = element;
           } else {
             element.forEach((e, i) => {
               if (isDayjs(e)) {
