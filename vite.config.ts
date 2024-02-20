@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-02-01 17:39:03
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-05 10:36:27
+ * @LastEditTime: 2024-02-20 11:30:32
  * @FilePath: /yzt-react-component/vite.config.ts
  */
 import { defineConfig } from "vite";
@@ -18,12 +18,13 @@ export default defineConfig({
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ["react", "antd"],
+      external: ["react", "antd", "icons"],
       output: {
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           react: "React",
           antd: "Antd",
+          icons: "@ant-design/icons",
         },
         format: "cjs",
       },

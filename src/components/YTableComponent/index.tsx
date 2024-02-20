@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 22:47:04
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-07 16:13:20
+ * @LastEditTime: 2024-02-20 09:51:45
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
 import { add, isString } from "lodash";
@@ -176,17 +176,9 @@ const getSummary = <T,>(dataSource: readonly T[], columns: YColumnsType<T>) => {
     }
   });
   return (
-    <Table.Summary.Row
-      className={dataSource.length % 2 == 1 ? "bg-[#242D39]" : "bg-[#1F2832]"}
-    >
+    <Table.Summary.Row>
       {list.map((text, key) => (
-        <Table.Summary.Cell
-          key={key}
-          index={key}
-          className={
-            dataSource.length % 2 == 1 ? "bg-[#242D39]" : "bg-[#1F2832]"
-          }
-        >
+        <Table.Summary.Cell key={key} index={key}>
           <Typography.Text type="danger">{text}</Typography.Text>
         </Table.Summary.Cell>
       ))}

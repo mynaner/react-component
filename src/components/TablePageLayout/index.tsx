@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useImperativeHandle, useRef } from "react";
-import { isArray, isFunction } from "lodash";
+import { isArray, isFunction, isString } from "lodash";
 import { Space, TableProps } from "antd";
 import { SorterResult } from "antd/lib/table/interface";
 import { IPage, Paging } from "../types/index";
@@ -229,41 +229,24 @@ export const TablePageLayout = <
   );
 };
 
-const getFParams = (
-  fParams: Paging,
-  options?: YFormOptionType[]
-): { param?: Paging; data?: Paging } => {
+const getFParams = (fParams: Paging, options?: YFormOptionType[]) => {
   const param: Paging = {};
   const data: Paging = {};
 
-  const loop = (list?: YFormOptionType[]) => {
-    list?.forEach((item) => {
-      Object.keys(fParams).map((key) => {
-        let value = fParams[key];
-        if (isArray(item)) {
-          loop(item);
-        } else if (item.name?.split(/_|:/).includes(key)) {
-          const name = item.name;
-          if (name?.split("_").includes(key)) {
-            if (item.setting?.request == "body") {
-              data[key] = value;
-            } else {
-              param[key] = value;
-            }
+  options?.forEach((el) => {
+    if (isString(el.name)) {
+      el.name
+        .split(":")[0]
+        .split("_")
+        .forEach((e) => {
+          if (el.setting?.request == "body") {
+            data[e] = fParams[e];
           } else {
-            param[key] = value;
+            param[e] = fParams[e];
           }
-        } else if (!item.children) {
-          if (item.setting?.request == "body") {
-            data[item.name ?? ""] = item.initialValue;
-          } else {
-            param[item.name ?? ""] = item.initialValue;
-          }
-        }
-      });
-    });
-  };
+        });
+    }
+  });
 
-  loop(options);
   return { param, data };
 };
