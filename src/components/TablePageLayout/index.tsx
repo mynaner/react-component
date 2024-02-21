@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useImperativeHandle, useRef } from "react";
 import { isArray, isFunction, isString } from "lodash";
-import { Space, TableProps } from "antd";
+import { TableProps } from "antd";
 import { SorterResult } from "antd/lib/table/interface";
 import { IPage, Paging } from "../types/index";
 import { useBoolean } from "ahooks";
@@ -216,11 +216,9 @@ export const TablePageLayout = <
           }
         }}
         headerRight={
-          <Space>
-            {isFunction(headerRight)
-              ? headerRight?.({ search: formState, dataSource })
-              : headerRight}
-          </Space>
+          isFunction(headerRight)
+            ? headerRight?.({ search: formState, dataSource })
+            : headerRight
         }
         title={title}
         {...res}

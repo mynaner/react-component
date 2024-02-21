@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-19 17:55:03
+ * @LastEditTime: 2024-02-21 15:10:31
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -225,7 +225,7 @@ const getSearchOptionComponent: FC<{
       const item = e as FormOptionType;
       if (item.children) {
         listElemet.push(
-          <Form.Item key={i + "00002"} {...item}>
+          <Form.Item className="mb-4" key={i + "00002"} {...item}>
             {elementAddProps(item, isOther ? "100%" : "150px")}
           </Form.Item>
         );
