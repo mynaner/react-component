@@ -1,6 +1,6 @@
 {
   "name": "@yzts/react-component",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,8 @@
     "path": ">=0.12.7",
     "ramda": ">=0.29.1",
     "react": ">=18.2.0",
-    "react-dom": ">=18.2.0"
+    "react-dom": ">=18.2.0",
+    "release-it": "^17.1.1"
   },
   "devDependencies": {
     "@release-it/conventional-changelog": "^8.0.1",
