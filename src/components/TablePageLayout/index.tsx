@@ -243,6 +243,21 @@ const getFParams = (fParams: Paging, options?: YFormOptionType[]) => {
             param[e] = fParams[e];
           }
         });
+    } else if (el.list?.length) {
+      el.list.forEach((el) => {
+        if (isString(el.name)) {
+          el.name
+            .split(":")[0]
+            .split("_")
+            .forEach((e) => {
+              if (el.setting?.request == "body") {
+                data[e] = fParams[e];
+              } else {
+                param[e] = fParams[e];
+              }
+            });
+        }
+      });
     }
   });
 
