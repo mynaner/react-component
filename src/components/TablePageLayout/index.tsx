@@ -230,7 +230,6 @@ export const TablePageLayout = <
 const getFParams = (fParams: Paging, options?: YFormOptionType[]) => {
   const param: Paging = {};
   const data: Paging = {};
-  //123 123
   options?.forEach((el) => {
     if (isString(el.name)) {
       el.name
