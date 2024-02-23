@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 22:47:04
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-20 09:51:45
+ * @LastEditTime: 2024-02-23 11:07:24
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
 import { add, isString } from "lodash";
@@ -38,6 +38,8 @@ export interface YColumnType<T> extends ColumnType<T> {
    * hide 使用统计, (解决在统计字符在children中,无法发现的问题,该字符应该在第一个column下)
    */
   summary?: "money" | "num" | "time" | "hide";
+  ///
+  tip?: string;
   /**
    * 是否隐藏列表字段
    */

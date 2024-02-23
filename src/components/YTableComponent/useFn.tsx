@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-24 22:16:52
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-07 16:14:20
+ * @LastEditTime: 2024-02-23 11:10:10
  * @FilePath: /yzt-react-component/src/components/YTableComponent/useFn.tsx
  */
 import { Tooltip, Typography } from "antd";
@@ -9,6 +9,7 @@ import { ColumnsType } from "antd/es/table";
 import { YColumnGroupType, YColumnsType } from ".";
 import { MsgType } from "../types/index";
 import { FC } from "react";
+import { TooltipTitleComponent } from "../TooltipTitleComponent";
 
 export const columnTypefn = <T,>(columns: YColumnsType<T>): ColumnsType<T> => {
   return columns
@@ -51,6 +52,10 @@ export const columnTypefn = <T,>(columns: YColumnsType<T>): ColumnsType<T> => {
           if (!val) return "--";
           return <EenderChild ellipsis={ellipsis} str={val} />;
         };
+      }
+
+      if (res.tip) {
+        res.title = <TooltipTitleComponent title={res.title} tip={res.tip} />;
       }
       return res;
     });

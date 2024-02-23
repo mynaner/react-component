@@ -145,7 +145,11 @@ export const TablePageLayout = <
   /// 页面初始化后获取图表数据
   useEffect(() => {
     if (isRequest) {
-      searchRef.current?.onSearch?.();
+      if (searchOptions?.length) {
+        searchRef.current?.onSearch?.();
+      } else {
+        onChangeSearch();
+      }
     }
   }, []);
   /// 获取图表数据
