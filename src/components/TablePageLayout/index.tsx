@@ -182,7 +182,7 @@ export const TablePageLayout = <
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <YLayoutSearch<P>
         cRef={searchRef}
         options={searchOptions ?? []}
