@@ -1,5 +1,12 @@
 
 
+## [0.1.1](https://github.com/mynaner/react-component/compare/v0.1.0...v0.1.1) (2024-02-23)
+
+
+### 🌈样式
+
+* 优化表格，搜索表单样式 ([847dfb4](https://github.com/mynaner/react-component/commit/847dfb4fbbddf42fd43e69d4c9bb658019998e2b))
+
 ## [0.1.0](https://github.com/mynaner/-yzt-react-component/compare/v0.0.20...v0.1.0) (2024-02-23)
 
 
