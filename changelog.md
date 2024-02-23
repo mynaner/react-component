@@ -1,5 +1,17 @@
 
 
+## [0.0.20](https://github.com/mynaner/react-component/compare/v0.0.19...v0.0.20) (2024-02-23)
+
+
+### 🐞问题修复
+
+* 修复重复发布npm包 ([c02c7cd](https://github.com/mynaner/react-component/commit/c02c7cd71f7a844050a33bbdc68d01c41bb2a735))
+
+
+### 🌈样式
+
+* gap-5->gap-4 ([c426bdc](https://github.com/mynaner/react-component/commit/c426bdc198f087aaa091f664ee21311f42b62e56))
+
 ## [0.0.19](https://github.com/mynaner/react-component/compare/v0.0.18...v0.0.19) (2024-02-23)
 
 ## [0.0.18](https://github.com/mynaner/react-component/compare/v0.0.16...v0.0.18) (2024-02-23)
