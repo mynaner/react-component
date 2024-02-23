@@ -1,11 +1,21 @@
 /*
  * @Date: 2022-11-23 08:08:23
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-21 15:10:31
+ * @LastEditors: Knight
+ * @LastEditTime: 2024-02-23 14:50:41
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
-import { Button, Divider, Drawer, Form, Input, InputNumber, Space } from "antd";
+import {
+  Button,
+  ColProps,
+  Divider,
+  Drawer,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Space,
+} from "antd";
 import { FC, cloneElement, useImperativeHandle, useState } from "react";
 import { FormOptionSettingType, FormOptionType } from "./type";
 import { isArray, isObject, isString } from "lodash";
@@ -143,54 +153,57 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
       autoComplete="off"
       onFinish={onFinish}
     >
-      {getSearchOptionComponent({
-        options: optionList.slice(0, isCount ? count : optionList.length),
-        isOther: false,
-      })}
+      <Flex wrap="wrap" gap="8px 0">
+        {getSearchOptionComponent({
+          options: optionList.slice(0, isCount ? count : optionList.length),
+          isOther: false,
+        })}
 
-      <Form.Item className="mb-4">
-        <Space>
-          <Button type="primary" onClick={form.submit}>
-            搜索
-          </Button>
-          {showReset && (
-            <Button htmlType="button" onClick={onReset}>
-              重置
-            </Button>
-          )}
-        </Space>
-      </Form.Item>
-      {isCount ? (
         <Form.Item>
-          <FilterFilled
-            onClick={() => setOpen(true)}
-            style={{
-              color: isSelect ? "rgb(51,167,255)" : "",
-              cursor: "pointer",
-            }}
-          />
-          <Drawer
-            title="更多条件查询"
-            placement="right"
-            onClose={onClose}
-            open={open}
-            width={500}
-            footer={
-              <Space split={<Divider type="vertical" />}>
-                <Button type="primary" onClick={form.submit}>
-                  确认
-                </Button>
-                <Button onClick={onClose}>取消</Button>
-              </Space>
-            }
-          >
-            {getSearchOptionComponent({
-              options: optionList.slice(count),
-              isOther: true,
-            })}
-          </Drawer>
+          <Space>
+            <Button type="primary" onClick={form.submit}>
+              搜索
+            </Button>
+            {showReset && (
+              <Button htmlType="button" onClick={onReset}>
+                重置
+              </Button>
+            )}
+          </Space>
         </Form.Item>
-      ) : undefined}
+        {isCount ? (
+          <Form.Item>
+            <FilterFilled
+              onClick={() => setOpen(true)}
+              style={{
+                color: isSelect ? "rgb(51,167,255)" : "",
+                cursor: "pointer",
+              }}
+            />
+            <Drawer
+              title="更多条件查询"
+              placement="right"
+              onClose={onClose}
+              open={open}
+              width={500}
+              footer={
+                <Space split={<Divider type="vertical" />}>
+                  <Button type="primary" onClick={form.submit}>
+                    确认
+                  </Button>
+                  <Button onClick={onClose}>取消</Button>
+                </Space>
+              }
+            >
+              {getSearchOptionComponent({
+                options: optionList.slice(count),
+                isOther: true,
+                labelCol: { span: 5 },
+              })}
+            </Drawer>
+          </Form.Item>
+        ) : null}
+      </Flex>
     </Form>
   );
 };
@@ -199,13 +212,14 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
 const getSearchOptionComponent: FC<{
   options: FormOptionType[];
   isOther: boolean;
-}> = ({ options, isOther }) => {
+  labelCol?: ColProps;
+}> = ({ options, isOther, labelCol }) => {
   const listElemet: JSX.Element[] = [];
   options.map((e, i) => {
     if (e.list?.length) {
       listElemet.push(
         <Form.Item
-          className="mb-6"
+          labelCol={labelCol}
           label={e.label}
           tooltip={e.tooltip}
           key={i + "00001"}
@@ -225,7 +239,7 @@ const getSearchOptionComponent: FC<{
       const item = e as FormOptionType;
       if (item.children) {
         listElemet.push(
-          <Form.Item className="mb-4" key={i + "00002"} {...item}>
+          <Form.Item key={i + "00002"} labelCol={labelCol} {...item}>
             {elementAddProps(item, isOther ? "100%" : "150px")}
           </Form.Item>
         );

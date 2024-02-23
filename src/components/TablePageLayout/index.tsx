@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useImperativeHandle, useRef } from "react";
 import { isArray, isFunction, isString } from "lodash";
-import { TableProps } from "antd";
+import { Flex, TableProps } from "antd";
 import { SorterResult } from "antd/lib/table/interface";
 import { IPage, Paging } from "../types/index";
 import { useBoolean } from "ahooks";
@@ -186,7 +186,7 @@ export const TablePageLayout = <
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <Flex vertical gap="middle">
       <YLayoutSearch<P>
         cRef={searchRef}
         options={searchOptions ?? []}
@@ -227,7 +227,7 @@ export const TablePageLayout = <
         title={title}
         {...res}
       />
-    </div>
+    </Flex>
   );
 };
 
