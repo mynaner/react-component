@@ -1,5 +1,13 @@
 
 
+## [0.1.2](https://github.com/mynaner/react-component/compare/v0.1.1...v0.1.2) (2024-02-26)
+
+
+### 🐞问题修复
+
+* 修复SelectComponent组件request为true时销毁组件继续触发请求，改为有传入value值时默认会发起请求，不在需要request参数 ([8134262](https://github.com/mynaner/react-component/commit/81342625643e59c05dd1fad54f3af8acc83c8bd3))
+* 修复tailwindcss样式未生效 ([903682b](https://github.com/mynaner/react-component/commit/903682b5b87622713d8a09588323ca4f134d3fab))
+
 ## [0.1.1](https://github.com/mynaner/react-component/compare/v0.1.0...v0.1.1) (2024-02-23)
 
 
