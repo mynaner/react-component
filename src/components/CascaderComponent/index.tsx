@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-03 17:57:44
+ * @LastEditTime: 2024-02-26 17:29:38
  * @FilePath: /yzt-react-component/src/components/CascaderComponent/index.tsx
  */
 import { Cascader, CascaderProps } from "antd";
@@ -13,10 +13,8 @@ export type CascaderValueType = NonNullable<CascaderProps["value"]>;
 export type ValueType = string | number | (string | number)[];
 
 export interface CascaderComponentProps<T, P>
-  extends Partial<Omit<CascaderProps, "onChange" | "value">> {
-  width?: number;
+  extends Partial<Omit<CascaderProps, "onChange">> {
   params?: P;
-  value?: ValueType;
   getTreeFn?: (params?: P) => Promise<T[]>;
   /// 重组树结构的方法
   getTreeData?: (e: T[]) => any;
@@ -34,7 +32,6 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
     onChange,
     params,
     value,
-    width,
     ...res
   } = props;
   const [options, setOptions] = useState<T[]>([]);

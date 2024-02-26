@@ -1,16 +1,14 @@
 /*
  * @Date: 2022-11-27 23:32:29
- * @LastEditors: Knight
- * @LastEditTime: 2024-02-26 15:28:32
+ * @LastEditors: dengxin 994386508@qq.com
+ * @LastEditTime: 2024-02-26 16:37:31
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
 import { useEffect, useState } from "react";
 
 export interface SelectComponentProps<T, P>
-  extends Partial<Omit<SelectProps, "onChange" | "value" | "options">> {
-  onChange?: (val: string, e: T) => void;
-  value?: any;
+  extends Partial<Omit<SelectProps, "options">> {
   getDataFn?: (params?: P) => Promise<T[]>;
   /// 重组树结构的方法
   getTreeData?: (e: T[]) => any;
@@ -44,10 +42,10 @@ export const SelectComponent = <T extends object, P = object>(
   };
 
   useEffect(() => {
-    if (res.value) {
+    if (res.value && list.length == 0) {
       onDropdownVisibleChange();
     }
-  }, [res?.value]);
+  }, []);
 
   return (
     <Select<T>
