@@ -1,9 +1,10 @@
 /*
  * @Date: 2024-02-01 17:42:48
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-23 14:27:22
+ * @LastEditors: Knight
+ * @LastEditTime: 2024-02-26 14:22:41
  * @FilePath: /yzt-react-component/src/components/index.tsx
  */
+import "./style.css";
 
 export { CascaderComponent as YCascader } from "./CascaderComponent/index";
 export { type CascaderComponentProps as YCascaderProps } from "./CascaderComponent/index";

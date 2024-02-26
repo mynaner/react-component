@@ -1,12 +1,13 @@
 /*
  * @Date: 2024-02-01 17:39:03
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-20 11:30:32
+ * @LastEditors: Knight
+ * @LastEditTime: 2024-02-26 14:18:50
  * @FilePath: /yzt-react-component/vite.config.ts
  */
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
