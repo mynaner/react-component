@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-05 14:37:47
+ * @LastEditors: Knight
+ * @LastEditTime: 2024-02-26 15:28:32
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
@@ -15,7 +15,6 @@ export interface SelectComponentProps<T, P>
   /// 重组树结构的方法
   getTreeData?: (e: T[]) => any;
   params?: P;
-  request?: boolean;
 }
 
 export const SelectComponent = <T extends object, P = object>(
@@ -25,13 +24,13 @@ export const SelectComponent = <T extends object, P = object>(
     getDataFn,
     getTreeData,
     params,
-    request,
     fieldNames = { value: "id", label: "name" },
     ...res
   } = props;
 
   const [list, setList] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   const onDropdownVisibleChange = async () => {
     if (list.length == 0) {
       try {
@@ -45,10 +44,10 @@ export const SelectComponent = <T extends object, P = object>(
   };
 
   useEffect(() => {
-    if (request) {
+    if (res.value) {
       onDropdownVisibleChange();
     }
-  }, []);
+  }, [res?.value]);
 
   return (
     <Select<T>
