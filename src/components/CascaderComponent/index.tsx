@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-26 17:29:38
+ * @LastEditTime: 2024-02-26 18:15:46
  * @FilePath: /yzt-react-component/src/components/CascaderComponent/index.tsx
  */
 import { Cascader, CascaderProps } from "antd";

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-26 18:05:55
+ * @LastEditTime: 2024-02-26 18:16:06
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
@@ -45,7 +45,7 @@ export const SelectComponent = <T extends object, P = object>(
     if (res.value) {
       onDropdownVisibleChange();
     }
-  }, []);
+  }, [res.value]);
 
   return (
     <Select<T>
