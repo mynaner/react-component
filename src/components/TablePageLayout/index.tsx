@@ -188,7 +188,13 @@ export const TablePageLayout = <
           data?: P;
         };
       },
-      getTableList: setConstState,
+      getTableList: (e) => {
+        if (e) {
+          setConstState(e);
+        } else {
+          initGetData();
+        }
+      },
     })
   );
 
