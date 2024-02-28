@@ -1,5 +1,17 @@
 
 
+## [0.1.3](https://github.com/mynaner/-yzt-react-component/compare/v0.1.2...v0.1.3) (2024-02-28)
+
+
+### 🐞问题修复
+
+*  完善表格 ref  getTableList 逻辑 ([aa0cf6f](https://github.com/mynaner/-yzt-react-component/commit/aa0cf6f268665a3853683388c9e6fbf59076a34b))
+* 修改 ([2fad350](https://github.com/mynaner/-yzt-react-component/commit/2fad350bf062ee413bd0457d9f232a15d148cfc8))
+* 修改 ([2a1eeb9](https://github.com/mynaner/-yzt-react-component/commit/2a1eeb91c6d4b72a7cbcbe75cea8326309f8774a))
+* 修改 ([8a101f6](https://github.com/mynaner/-yzt-react-component/commit/8a101f6385d9306e41ccf4e932ecdf84080e6f96))
+* 组件优化 ([40c4ef4](https://github.com/mynaner/-yzt-react-component/commit/40c4ef40556eb1828dfa707c5018e08c5e33cb89))
+* pub时编译 ([3e83484](https://github.com/mynaner/-yzt-react-component/commit/3e8348450807680b0392a4b7bf4f9689168f28a7))
+
 ## [0.1.2](https://github.com/mynaner/react-component/compare/v0.1.1...v0.1.2) (2024-02-26)
 
 
