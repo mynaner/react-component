@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
- * @LastEditors: Knight
- * @LastEditTime: 2024-02-23 14:50:41
+ * @LastEditors: dengxin 994386508@qq.com
+ * @LastEditTime: 2024-02-28 10:04:54
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -47,7 +47,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<WithOther<T>>();
   const [isSelect, setIsSelect] = useState(false);
-  const isCount = count < options.filter((e) => e.children || e.list).length;
+  const isCount = count < options?.filter((e) => e.children || e.list).length;
 
   /// 过滤隐藏参数
   const optionList = options.filter((e) => e.children || e.list);
@@ -61,7 +61,9 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
       });
 
     onChange(changeData({ ...da, ...res }));
-    onClose();
+    if (optionList.length) {
+      onClose();
+    }
   };
 
   const changeData = (e: any) => {
@@ -104,8 +106,12 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
   };
 
   const onReset = () => {
-    form.resetFields();
-    form.submit();
+    if (optionList.length) {
+      form.resetFields();
+      form.submit();
+    } else {
+      onFinish({});
+    }
   };
 
   const onClose = () => {

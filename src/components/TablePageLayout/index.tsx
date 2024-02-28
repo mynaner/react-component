@@ -79,6 +79,7 @@ export const TablePageLayout = <
   /// 是否有分页
   const [isPagination, setIsPagination] = useBoolean(true);
 
+  const [constState, setConstState] = useState<P | { [key: string]: any }>();
   /// 存储查询表单的参数
   const [formState, setFormState] = useState<P>();
   /// 请求状态
@@ -114,7 +115,7 @@ export const TablePageLayout = <
       setLoading(true);
 
       const res = await getTableFn?.(
-        { ...fParams.param, ...pag } as P,
+        { ...fParams.param, ...pag, ...constState } as P,
         fParams.data
       );
       if (isArray(res)) {
@@ -144,14 +145,15 @@ export const TablePageLayout = <
 
   /// 页面初始化后获取图表数据
   useEffect(() => {
-    if (isRequest) {
-      if (searchOptions?.length) {
-        searchRef.current?.onSearch?.();
-      } else {
-        onChangeSearch();
-      }
-    }
+    if (isRequest) initGetData();
   }, []);
+
+  useEffect(() => {
+    if (constState) {
+      initGetData();
+    }
+  }, [constState]);
+
   /// 获取图表数据
   const getCahrtData = async (data: Paging) => {
     const { pageNum, pageSize, ...params } = data;
@@ -167,6 +169,14 @@ export const TablePageLayout = <
     }
   };
 
+  const initGetData = () => {
+    if (searchOptions?.length) {
+      searchRef.current?.onReset?.();
+    } else {
+      onChangeSearch();
+    }
+  };
+
   /// 对外暴露 函数
   useImperativeHandle(
     props.cRef,
@@ -178,10 +188,7 @@ export const TablePageLayout = <
           data?: P;
         };
       },
-      getTableList: (e) => {
-        setFormState(e);
-        searchRef.current?.onReset?.();
-      },
+      getTableList: setConstState,
     })
   );
 
