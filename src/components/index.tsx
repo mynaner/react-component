@@ -1,7 +1,7 @@
 /*
  * @Date: 2024-02-01 17:42:48
- * @LastEditors: Knight
- * @LastEditTime: 2024-02-26 14:22:41
+ * @LastEditors: dengxin 994386508@qq.com
+ * @LastEditTime: 2024-03-01 11:10:14
  * @FilePath: /yzt-react-component/src/components/index.tsx
  */
 import "./style.css";
@@ -27,6 +27,12 @@ export {
 export { TablePageLayout as YLayoutTable } from "./TablePageLayout";
 
 export { ExportButton as YExportButton } from "./ExportButton";
+
+export { TreeSelectComponent as YTreeSelect } from "./TreeSelectComponent";
+
+export { ActionButtonComponent as YActionButton } from "./ActionButtonComponent";
+
+export { SwitchComponent as YSwitch } from "./SwitchComponent";
 
 export { type TablePageLayoutRefProps } from "./TablePageLayout";
 
