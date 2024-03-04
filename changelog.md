@@ -1,5 +1,13 @@
 
 
+## [0.2.0](https://github.com/mynaner/-yzt-react-component/compare/v0.1.4...v0.2.0) (2024-03-04)
+
+
+### ✨新功能
+
+* 新增  YTreeSelect YActionButton YSwitch 三个组件 ([db4bfb1](https://github.com/mynaner/-yzt-react-component/commit/db4bfb1ec1ce69cbe34d4091a32d948b65feed01))
+* 新增 Ybutton  TypographyLink ,并优化其他组件 ([6f2e635](https://github.com/mynaner/-yzt-react-component/commit/6f2e63543cdb816fb170662ae06300cc2844200f))
+
 ## [0.1.4](https://github.com/mynaner/-yzt-react-component/compare/v0.1.3...v0.1.4) (2024-02-28)
 
 ## [0.1.3](https://github.com/mynaner/-yzt-react-component/compare/v0.1.2...v0.1.3) (2024-02-28)
