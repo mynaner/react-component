@@ -1,14 +1,14 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-01 10:15:36
+ * @LastEditTime: 2024-03-01 17:18:25
  * @FilePath: /yzt-react-component/src/components/TreeSelectComponent/index.tsx
  */
 import { TreeSelect, TreeSelectProps } from "antd";
 import { isArray, isString } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 
-interface TreeSelectComponentProps<T, P>
+export interface TreeSelectComponentProps<T, P>
   extends Partial<
     Omit<
       TreeSelectProps<string>,
@@ -33,7 +33,7 @@ export const TreeSelectComponent = <T extends object, P = object>(
     getTreeData,
     params,
     fieldNames = { value: "id", label: "name" },
-    treeCheckable = true,
+    treeCheckable,
     onChange,
     showCheckedStrategy = TreeSelect.SHOW_CHILD,
     moreChange,
@@ -60,7 +60,13 @@ export const TreeSelectComponent = <T extends object, P = object>(
   }, [value]);
 
   const _value = useMemo(() => {
-    return isArray(value) ? value.find((e) => e) : value;
+    return !treeCheckable && isArray(value)
+      ? value.find((e) => {
+          console.log(e);
+
+          return e;
+        })
+      : value;
   }, [value]);
 
   return (

@@ -1,29 +1,29 @@
 /*
  * @Date: 2023-11-20 15:28:04
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-01 11:01:18
- * @FilePath: /yzt-react-component/src/components/ActionButtonComponent/index.tsx
+ * @LastEditTime: 2024-03-01 14:08:14
+ * @FilePath: /yzt-react-component/src/components/TypographyLinkComponent/index.tsx
  */
 
-import { useBoolean } from "ahooks";
-import { App, Button, ButtonProps } from "antd";
+import { App, Typography } from "antd";
 import { LegacyButtonType } from "antd/es/button/button";
-interface TableDeleteComponentProps<P>
-  extends Partial<Omit<ButtonProps, "loading" | "onClick">> {
+import { LinkProps } from "antd/es/typography/Link";
+export interface TypographyLinkComponentProps<P>
+  extends Partial<Omit<LinkProps, "onClick">> {
   /// 选择 数据的时候会执行,并传入选中的结果 和选中的数据
-  onReset: () => void;
+  onReset?: () => void;
   /// getTreeFn 的参数
   params?: P;
   /// getTreeFn 请求树结构的方法
   actionFn?: (params?: P) => Promise<boolean>;
-  /// 自定义删除提示语句
+  /// 提示语句
   modalContent?: React.ReactNode;
   modalOkType?: LegacyButtonType;
-  modalSuccessMsg: string;
+  modalSuccessMsg?: string;
 }
 
-export const ActionButtonComponent = <P extends object>(
-  props: TableDeleteComponentProps<P>
+export const TypographyLinkComponent = <P extends object>(
+  props: TypographyLinkComponentProps<P>
 ) => {
   const {
     onReset,
@@ -37,8 +37,6 @@ export const ActionButtonComponent = <P extends object>(
 
   const { modal, message } = App.useApp();
 
-  const [loading, setLoading] = useBoolean();
-
   const onClick = () => {
     if (!actionFn) {
       message.error("请传入接口函数");
@@ -48,19 +46,14 @@ export const ActionButtonComponent = <P extends object>(
       content: modalContent,
       okType: modalOkType,
       onOk: async () => {
-        setLoading.setTrue();
-        try {
-          const res = await actionFn?.(params);
-          if (res) {
-            message.success(modalSuccessMsg ?? "操作成功");
-            onReset();
-          }
-        } finally {
-          setLoading.setFalse();
+        const res = await actionFn?.(params);
+        if (res) {
+          message.success(modalSuccessMsg ?? "操作成功");
+          onReset?.();
         }
       },
     });
   };
 
-  return <Button loading={loading} onClick={onClick} {...res} />;
+  return <Typography.Link onClick={onClick} {...res} />;
 };

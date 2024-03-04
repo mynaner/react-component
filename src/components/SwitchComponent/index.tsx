@@ -1,17 +1,17 @@
 /*
  * @Date: 2023-11-20 15:28:04
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-01 11:09:03
+ * @LastEditTime: 2024-03-01 15:30:24
  * @FilePath: /yzt-react-component/src/components/SwitchComponent/index.tsx
  */
 
 import { useBoolean } from "ahooks";
 import { App, Switch, SwitchProps } from "antd";
 import { isFunction } from "lodash";
-interface SwitchComponentProps<P>
+export interface SwitchComponentProps<P>
   extends Partial<Omit<SwitchProps, "loading" | "onChange">> {
   /// 选择切换成功后刷新用
-  onReset: () => void;
+  onReset?: () => void;
   /// 自定义提示语句
   content?: string;
   /// 参数
@@ -41,7 +41,7 @@ export const SwitchComponent = <P extends object>(
           const res = await switchFn?.(isFunction(params) ? params(e) : params);
           if (res) {
             message.success("操作成功");
-            onReset();
+            onReset?.();
           }
         } finally {
           setLoading.setFalse();
