@@ -1,12 +1,17 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-01 17:18:25
+ * @LastEditTime: 2024-03-05 17:20:28
  * @FilePath: /yzt-react-component/src/components/TreeSelectComponent/index.tsx
  */
 import { TreeSelect, TreeSelectProps } from "antd";
 import { isArray, isString } from "lodash";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useImperativeHandle, useMemo, useState } from "react";
+
+export interface TreeSelectComponentRefProps<P> {
+  onClear: () => void;
+  onGetDate: (p: P) => void;
+}
 
 export interface TreeSelectComponentProps<T, P>
   extends Partial<
@@ -24,6 +29,7 @@ export interface TreeSelectComponentProps<T, P>
     e: string | undefined,
     v: React.ReactNode[]
   ) => (string | undefined)[];
+  cRef?: React.MutableRefObject<TreeSelectComponentRefProps<P>>;
 }
 export const TreeSelectComponent = <T extends object, P = object>(
   props: TreeSelectComponentProps<T, P>
@@ -38,19 +44,14 @@ export const TreeSelectComponent = <T extends object, P = object>(
     showCheckedStrategy = TreeSelect.SHOW_CHILD,
     moreChange,
     value,
+    cRef,
     ...res
   } = props;
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const onDropdownVisibleChange = async () => {
-    if (options.length == 0) {
-      try {
-        setLoading(true);
-        const res = await getTreeFn?.(params);
-        setOptions(getTreeData ? getTreeData(res ?? []) : res ?? []);
-      } finally {
-        setLoading(false);
-      }
+  const onDropdownVisibleChange = (get?: boolean) => {
+    if (options.length == 0 && get) {
+      getDate();
     }
   };
   useEffect(() => {
@@ -58,6 +59,25 @@ export const TreeSelectComponent = <T extends object, P = object>(
       onDropdownVisibleChange();
     }
   }, [value]);
+
+  const getDate = async (p?: P) => {
+    try {
+      setLoading(true);
+      const res = await getTreeFn?.(p ?? params);
+      setOptions(getTreeData ? getTreeData(res ?? []) : res ?? []);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /// 对外暴露 函数
+  useImperativeHandle(
+    cRef,
+    (): TreeSelectComponentRefProps<P> => ({
+      onClear: () => getDate(),
+      onGetDate: (p?: P) => getDate(p),
+    })
+  );
 
   const _value = useMemo(() => {
     return !treeCheckable && isArray(value)
