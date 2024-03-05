@@ -1,5 +1,12 @@
 
 
+## [0.2.1](https://github.com/mynaner/-yzt-react-component/compare/v0.2.0...v0.2.1) (2024-03-05)
+
+
+### 🐞问题修复
+
+* 更新TreeSelectComponent 新增ref 字短 ([9ba6a5e](https://github.com/mynaner/-yzt-react-component/commit/9ba6a5ea5e98c7c615dc79142381d2467823d973))
+
 ## [0.2.0](https://github.com/mynaner/-yzt-react-component/compare/v0.1.4...v0.2.0) (2024-03-04)
 
 
