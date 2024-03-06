@@ -1,5 +1,12 @@
 
 
+## [0.2.2](https://github.com/mynaner/-yzt-react-component/compare/v0.2.1...v0.2.2) (2024-03-06)
+
+
+### 🐞问题修复
+
+* bug  TreeSelectComponent 组件有value值时不刷新 ([3a6ad50](https://github.com/mynaner/-yzt-react-component/commit/3a6ad508049a2437f43674bad35138876feeee12))
+
 ## [0.2.1](https://github.com/mynaner/-yzt-react-component/compare/v0.2.0...v0.2.1) (2024-03-05)
 
 
