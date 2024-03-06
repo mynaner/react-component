@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-05 17:20:28
+ * @LastEditTime: 2024-03-06 16:33:40
  * @FilePath: /yzt-react-component/src/components/TreeSelectComponent/index.tsx
  */
 import { TreeSelect, TreeSelectProps } from "antd";
@@ -50,7 +50,7 @@ export const TreeSelectComponent = <T extends object, P = object>(
   const [options, setOptions] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const onDropdownVisibleChange = (get?: boolean) => {
-    if (options.length == 0 && get) {
+    if (options.length == 0 || get) {
       getDate();
     }
   };
