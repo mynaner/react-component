@@ -1,5 +1,13 @@
 
 
+## [0.2.3](https://github.com/mynaner/-yzt-react-component/compare/v0.2.2...v0.2.3) (2024-03-13)
+
+
+### 🐞问题修复
+
+* 修复Cascader  fieldNames 参数添加默认值  { value: "id", label: "name" }, ([d854c6f](https://github.com/mynaner/-yzt-react-component/commit/d854c6fd6dab4021142178cd2f498e564ece8441))
+* 修复table  且有children的时候, 再执行getCahrtDataFn ([152400d](https://github.com/mynaner/-yzt-react-component/commit/152400dbca1423bd0bcfcca02b0d4f010ec32d75))
+
 ## [0.2.2](https://github.com/mynaner/-yzt-react-component/compare/v0.2.1...v0.2.2) (2024-03-06)
 
 
