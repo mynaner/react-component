@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-26 18:15:46
+ * @LastEditTime: 2024-03-07 14:55:14
  * @FilePath: /yzt-react-component/src/components/CascaderComponent/index.tsx
  */
 import { Cascader, CascaderProps } from "antd";
@@ -32,6 +32,7 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
     onChange,
     params,
     value,
+    fieldNames = { value: "id", label: "name" },
     ...res
   } = props;
   const [options, setOptions] = useState<T[]>([]);
@@ -42,8 +43,8 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
     id?: string | number
   ): (string | number)[] => {
     for (let element of list) {
-      const value = element[res.fieldNames?.value ?? "value"];
-      const children = element[res.fieldNames?.children ?? "children"];
+      const value = element[fieldNames.value ?? "value"];
+      const children = element[fieldNames.children ?? "children"];
 
       if (value === id) {
         return [value];
@@ -73,7 +74,7 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
     return isString(value) || isNumber(value)
       ? getParentId(options, value)
       : undefined;
-  }, [value, options, res.fieldNames]);
+  }, [value, options, fieldNames]);
 
   const onDropdownVisibleChange = async () => {
     if (options.length === 0) {
@@ -95,8 +96,7 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
 
   const filter = (inputValue: string, path: T[]) =>
     path.some((option) => {
-      const name: JSX.Element | string =
-        option[res.fieldNames?.label ?? "label"];
+      const name: JSX.Element | string = option[fieldNames?.label ?? "label"];
       if (isString(name)) {
         return name.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
       } else {
