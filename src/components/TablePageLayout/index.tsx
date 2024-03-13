@@ -24,6 +24,8 @@ interface TablePageLayoutProps<T, P extends Object, C>
   extends Omit<TableProps<T>, "title" | "columns" | "children" | "pagination"> {
   ///
   columns: YColumnsType<T>;
+  /// 表格数据完成后的回调
+  onCallBack?: (e: { search?: P; dataSource?: T[] }) => JSX.Element;
   /// 表格头部右边模块
   headerRight?:
     | JSX.Element
@@ -73,6 +75,7 @@ export const TablePageLayout = <
     children,
     getCahrtDataFn,
     isRequest = true,
+    onCallBack,
     ...res
   } = props;
 
@@ -109,8 +112,8 @@ export const TablePageLayout = <
     const fParams = getFParams(params, searchOptions);
 
     try {
-      /// 当分页 pageNum 为1 的时候 获取图表数据
-      if (page.pageNum == 1) getCahrtData(fParams);
+      /// 当分页 pageNum 为1 的时候 并且有children 再获取图表数据
+      if (page.pageNum == 1 && children) getCahrtData(fParams);
 
       setLoading(true);
 
@@ -121,6 +124,7 @@ export const TablePageLayout = <
       if (isArray(res)) {
         setDataSource(res ?? []);
         setIsPagination.setFalse();
+        onCallBack?.({ search: params as P, dataSource: res });
       } else {
         setDataSource((res as IPage<T>)?.records ?? []);
         /// 请求成功后再改变分页数据
@@ -129,6 +133,7 @@ export const TablePageLayout = <
           ...pag,
           total: (res as IPage<T>)?.total ?? 0,
         });
+        onCallBack?.({ search: params as P, dataSource: res?.records });
       }
     } catch (error) {
       console.error(error);
