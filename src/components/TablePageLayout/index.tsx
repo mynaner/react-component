@@ -9,8 +9,8 @@ import {
   YTable,
   YTablePaginationProps,
 } from "../YTableComponent";
-import { YFormOptionType, YLayoutSearch } from "..";
-import { SearchComponentRefType } from "../SearchComponent";
+import { SearchComponent, SearchComponentRefType } from "../SearchComponent";
+import { FormOptionType } from "../SearchComponent/type";
 
 export interface TablePageLayoutRefProps<P extends Object = Object> {
   getFormState: () => {
@@ -38,7 +38,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
   /// 图表方法
   getCahrtDataFn?: (params: Object) => Promise<C | undefined>;
   /// 搜索对象
-  searchOptions?: YFormOptionType[];
+  searchOptions?: FormOptionType[];
   title?: string | false;
   /// 搜索条件数量(大于该数的会隐藏到侧边栏)
   showNum?: number;
@@ -59,7 +59,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
  * @param props
  * @returns
  */
-export const TablePageLayout = <
+export const YLayoutTable = <
   T extends Object,
   P extends Object = Object,
   C extends Object = Object
@@ -205,7 +205,7 @@ export const TablePageLayout = <
 
   return (
     <Flex vertical gap="middle">
-      <YLayoutSearch<P>
+      <SearchComponent<P>
         cRef={searchRef}
         options={searchOptions ?? []}
         count={showNum ?? 4}
@@ -249,7 +249,7 @@ export const TablePageLayout = <
   );
 };
 
-const getFParams = (fParams: Paging, options?: YFormOptionType[]) => {
+const getFParams = (fParams: Paging, options?: FormOptionType[]) => {
   const param: Paging = {};
   const data: Paging = {};
   options?.forEach((el) => {

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-01 11:10:53
+ * @LastEditTime: 2024-03-14 09:37:30
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -19,8 +19,10 @@ import {
 import { FC, cloneElement, useImperativeHandle, useState } from "react";
 import { FormOptionSettingType, FormOptionType } from "./type";
 import { isArray, isObject, isString } from "lodash";
-import { YDatePicker, YDatePickerRangePicker, YMoneyInput } from "../index";
 import { isDayjs } from "dayjs";
+import { DatePickerComponent } from "../DatePickerComponent";
+import { DatePickerRangePickerComponent } from "../DatePickerRangePickerComponent";
+import { MoneyInputComponent } from "../MoneyInputComponent";
 
 export interface SearchComponentRefType {
   onSearch?: () => void;
@@ -284,7 +286,7 @@ const elementAddProps = (item: FormOptionType, width: string = "100%") => {
     } else if (children == "YDatePicker") {
       prpos.allowClear = false;
       return (
-        <YDatePicker
+        <DatePickerComponent
           placeholder="选择日期"
           style={{ width: setting?.width ?? prpos.width }}
           {...prpos}
@@ -295,7 +297,7 @@ const elementAddProps = (item: FormOptionType, width: string = "100%") => {
       const { placeholder, ...ev } = prpos;
       ev.allowClear = false;
       return (
-        <YDatePickerRangePicker
+        <DatePickerRangePickerComponent
           style={{ width: setting?.width ?? "100%" }}
           {...ev}
         />
@@ -303,7 +305,7 @@ const elementAddProps = (item: FormOptionType, width: string = "100%") => {
     } else if (children == "YMoneyInput") {
       const { allowClear, ...ev } = prpos;
       return (
-        <YMoneyInput
+        <MoneyInputComponent
           prefix="¥"
           style={{ width: setting?.width ?? prpos.width }}
           {...ev}
