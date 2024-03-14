@@ -1,5 +1,12 @@
 
 
+## [0.2.4](https://github.com/mynaner/-yzt-react-component/compare/v0.2.3...v0.2.4) (2024-03-14)
+
+
+### 🐞问题修复
+
+* 解决组件循环依赖 ([777a33d](https://github.com/mynaner/-yzt-react-component/commit/777a33dab47d1e418975198d8a8c5c2620186146))
+
 ## [0.2.3](https://github.com/mynaner/-yzt-react-component/compare/v0.2.2...v0.2.3) (2024-03-13)
 
 
