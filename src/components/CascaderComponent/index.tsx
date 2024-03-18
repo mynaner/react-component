@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-07 14:55:14
+ * @LastEditTime: 2024-03-18 18:23:54
  * @FilePath: /yzt-react-component/src/components/CascaderComponent/index.tsx
  */
 import { Cascader, CascaderProps } from "antd";
@@ -122,6 +122,7 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
       placeholder="请选择"
       onChange={_onChange}
       onDropdownVisibleChange={onDropdownVisibleChange}
+      fieldNames={fieldNames}
       {...res}
     />
   );
