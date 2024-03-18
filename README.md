@@ -1,7 +1,7 @@
 <!--
  * @Date: 2024-02-01 17:39:03
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-05 14:22:12
+ * @LastEditTime: 2024-03-18 20:58:18
  * @FilePath: /yzt-react-component/README.md
 -->
 
@@ -21,3 +21,7 @@ npm login
 # 发布
 
 npm publish --access=public
+
+# 同步到淘宝镜像
+
+cnpm sync @yzts/react-component
