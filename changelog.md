@@ -1,5 +1,12 @@
 
 
+## [0.2.5](https://github.com/mynaner/-yzt-react-component/compare/v0.2.4...v0.2.5) (2024-03-18)
+
+
+### 🐞问题修复
+
+* bug  Cascader 组件 fieldNames 参数修复 ([f42b151](https://github.com/mynaner/-yzt-react-component/commit/f42b151235a67e1df82e39a76e22bddd7facfc90))
+
 ## [0.2.4](https://github.com/mynaner/-yzt-react-component/compare/v0.2.3...v0.2.4) (2024-03-14)
 
 
