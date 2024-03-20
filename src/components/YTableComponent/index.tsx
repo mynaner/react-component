@@ -1,10 +1,10 @@
 /*
  * @Date: 2022-11-23 22:47:04
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-23 11:07:24
+ * @LastEditTime: 2024-03-20 16:35:53
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
-import { add, isString } from "lodash";
+import { add, isNumber, isString } from "lodash";
 import { BarsOutlined } from "@ant-design/icons";
 import { Button, Space, Table, Typography } from "antd";
 import { TablePaginationConfig } from "antd/es/table";
@@ -169,11 +169,17 @@ const getSummary = <T,>(dataSource: readonly T[], columns: YColumnsType<T>) => {
   });
   keys?.forEach((key, i) => {
     if (i != 0) {
+      const d = list[i];
       if (key?.summary == "money") {
-        list[i] = (list[i] as number) / 100 + "元";
+        if (isNumber(d)) {
+          list[i] = (d / 100).toString().match(/^\d+(?:\.\d{0,4})?/) + "元";
+        }
       } else if (key?.summary == "time") {
-        list[i] = list[i] + "次";
-      } else {
+        list[i] = d.toString().match(/^\d+(?:\.\d{0,4})?/) + "次";
+      } else if (key?.summary == "num") {
+        if (isNumber(d)) {
+          list[i] = d.toString().match(/^\d+(?:\.\d{0,4})?/) + "";
+        }
       }
     }
   });
