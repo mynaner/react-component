@@ -25,7 +25,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
   ///
   columns: YColumnsType<T>;
   /// 表格数据完成后的回调
-  onCallBack?: (e: { search?: P; dataSource?: T[] }) => JSX.Element;
+  onCallBack?: (e: { search?: P; dataSource?: T[] }) => void;
   /// 表格头部右边模块
   headerRight?:
     | JSX.Element
@@ -39,7 +39,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
   getCahrtDataFn?: (params: Object) => Promise<C | undefined>;
   /// 搜索对象
   searchOptions?: FormOptionType[];
-  title?: string | false;
+  title?: React.ReactNode;
   /// 搜索条件数量(大于该数的会隐藏到侧边栏)
   showNum?: number;
   cRef?: React.MutableRefObject<TablePageLayoutRefProps<P> | undefined>;
