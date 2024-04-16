@@ -1,5 +1,14 @@
 
 
+## [0.2.7](https://github.com/mynaner/react-component/compare/v0.2.6...v0.2.7) (2024-04-16)
+
+
+### 🐞问题修复
+
+* 表格统计 字短截取后四位(防止精度溢出) ([28f7fc5](https://github.com/mynaner/react-component/commit/28f7fc538b08bd5c389637fde983fd19c312a503))
+* 修改onCallBack返回类型 ([19be3fc](https://github.com/mynaner/react-component/commit/19be3fc03ea8046c75c2cb1210eb8e431c82429b))
+* 修改YTable title类型 ([c9380fc](https://github.com/mynaner/react-component/commit/c9380fced872927e79de45e85d186d4f1aa0bb27))
+
 ## [0.2.6](https://github.com/mynaner/-yzt-react-component/compare/v0.2.5...v0.2.6) (2024-03-18)
 
 
