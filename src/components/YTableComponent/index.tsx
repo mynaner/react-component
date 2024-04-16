@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 22:47:04
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-20 16:35:53
+ * @LastEditors: Knight
+ * @LastEditTime: 2024-04-16 16:32:51
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
 import { add, isNumber, isString } from "lodash";
@@ -9,7 +9,7 @@ import { BarsOutlined } from "@ant-design/icons";
 import { Button, Space, Table, Typography } from "antd";
 import { TablePaginationConfig } from "antd/es/table";
 import { ColumnType } from "antd/lib/table/interface";
-import { useId } from "react";
+import { isValidElement, useId } from "react";
 import { columnTypefn } from "./useFn";
 import { TableProps } from "antd/lib";
 
@@ -68,7 +68,7 @@ export interface YTablePaginationProps {
 interface YTableComponentProps<T>
   extends Omit<TableProps<T>, "title" | "columns"> {
   columns: YColumnsType<T>;
-  title?: String | false;
+  title?: React.ReactNode;
   headerRight?: JSX.Element;
   pagination?: YTablePaginationProps;
 }
@@ -85,10 +85,14 @@ export const YTable = <T extends unknown>(props: YTableComponentProps<T>) => {
   const tableTitle = () => {
     return (
       <div className="flex justify-between items-center">
-        <div className="text-base font-medium">
-          <BarsOutlined className="text-base mr-1" />
-          {title}
-        </div>
+        {isValidElement(title) ? (
+          title
+        ) : (
+          <div className="text-base font-medium">
+            <BarsOutlined className="text-base mr-1" />
+            {title}
+          </div>
+        )}
         <Space>{headerRight}</Space>
       </div>
     );
