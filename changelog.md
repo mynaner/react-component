@@ -1,5 +1,12 @@
 
 
+## [0.2.8](https://github.com/mynaner/react-component/compare/v0.2.7...v0.2.8) (2024-04-18)
+
+
+### 🐞问题修复
+
+* TablePageLayout 暴露出onSearch方法 ([0f9c8a7](https://github.com/mynaner/react-component/commit/0f9c8a7e2dd488ed48c7fbabede3e25aec3d87f1))
+
 ## [0.2.7](https://github.com/mynaner/react-component/compare/v0.2.6...v0.2.7) (2024-04-16)
 
 
