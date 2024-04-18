@@ -13,6 +13,7 @@ import { SearchComponent, SearchComponentRefType } from "../SearchComponent";
 import { FormOptionType } from "../SearchComponent/type";
 
 export interface TablePageLayoutRefProps<P extends Object = Object> {
+  onSearch?: SearchComponentRefType["onSearch"];
   getFormState: () => {
     param?: P;
     data?: P;
@@ -186,6 +187,7 @@ export const YLayoutTable = <
   useImperativeHandle(
     props.cRef,
     (): TablePageLayoutRefProps<P> => ({
+      onSearch: searchRef.current?.onSearch,
       getFormState: () => {
         const fParams = getFParams({ ...formState }, searchOptions);
         return fParams as {
