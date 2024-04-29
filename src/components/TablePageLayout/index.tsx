@@ -37,7 +37,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
     data?: Object
   ) => Promise<IPage<T> | T[] | undefined>;
   /// 图表方法
-  getCahrtDataFn?: (params: Object) => Promise<C | undefined>;
+  getCahrtDataFn?: ((params: Object) => Promise<C | undefined>) | false;
   /// 搜索对象
   searchOptions?: FormOptionType[];
   title?: React.ReactNode;
@@ -114,7 +114,7 @@ export const YLayoutTable = <
 
     try {
       /// 当分页 pageNum 为1 的时候 并且有children 再获取图表数据
-      if (page.pageNum == 1 && children) getCahrtData(fParams);
+      if (page.pageNum == 1) getCahrtData(fParams);
 
       setLoading(true);
 
@@ -144,9 +144,15 @@ export const YLayoutTable = <
   };
 
   /// 点击搜索查询数据
-  const onChangeSearch = (e?: P) => {
+  const onChangeSearch = (e?: P, isReset?: boolean) => {
+    console.log(isReset);
+
     setFormState(e);
-    getTable({ pageNum: 1, pageSize: 10 }, e);
+    if (isReset) {
+      getTable({ pageNum: 1, pageSize: 10 }, e);
+    } else {
+      getTable(pagination, e);
+    }
   };
 
   /// 页面初始化后获取图表数据
@@ -162,6 +168,7 @@ export const YLayoutTable = <
 
   /// 获取图表数据
   const getCahrtData = async (data: Paging) => {
+    if (getCahrtDataFn == false) return;
     const { pageNum, pageSize, ...params } = data;
 
     try {
@@ -177,7 +184,7 @@ export const YLayoutTable = <
 
   const initGetData = () => {
     if (searchOptions?.length) {
-      searchRef.current?.onReset?.();
+      searchRef.current?.onSearch?.();
     } else {
       onChangeSearch();
     }
@@ -214,7 +221,9 @@ export const YLayoutTable = <
         onChange={onChangeSearch}
       />
       {isFunction(children)
-        ? children?.({ loading: charLoading, chartData })
+        ? isFunction(getCahrtDataFn)
+          ? children({ loading: charLoading, chartData })
+          : undefined
         : children}
       <YTable<T>
         dataSource={dataSource}

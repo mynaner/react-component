@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-14 09:37:30
+ * @LastEditTime: 2024-04-29 18:08:47
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -16,7 +16,7 @@ import {
   InputNumber,
   Space,
 } from "antd";
-import { FC, cloneElement, useImperativeHandle, useState } from "react";
+import { FC, cloneElement, useImperativeHandle, useRef, useState } from "react";
 import { FormOptionSettingType, FormOptionType } from "./type";
 import { isArray, isObject, isString } from "lodash";
 import { isDayjs } from "dayjs";
@@ -38,7 +38,7 @@ export interface SearchComponentType<T> {
   /// 是否显示 重置按钮
   showReset?: boolean;
   /// 点击搜索
-  onChange: (p?: T) => void;
+  onChange: (p?: T, isReset?: boolean) => void;
 }
 
 type WithOther<T> = T | { [key: string]: any };
@@ -50,7 +50,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
   const [form] = Form.useForm<WithOther<T>>();
   const [isSelect, setIsSelect] = useState(false);
   const isCount = count < options?.filter((e) => e.children || e.list).length;
-
+  const isReset = useRef<boolean>(false);
   /// 过滤隐藏参数
   const optionList = options.filter((e) => e.children || e.list);
 
@@ -62,7 +62,8 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
         da[e.name] = e.initialValue;
       });
 
-    onChange(changeData({ ...da, ...res }));
+    onChange(changeData({ ...da, ...res }), isReset.current);
+    isReset.current = false;
     if (optionList.length) {
       onClose();
     }
@@ -108,11 +109,16 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
   };
 
   const onReset = () => {
-    if (optionList.length) {
-      form.resetFields();
-      form.submit();
-    } else {
-      onFinish({});
+    try {
+      isReset.current = true;
+      if (optionList.length) {
+        form.resetFields();
+        form.submit();
+      } else {
+        onFinish({});
+      }
+    } catch (e) {
+      isReset.current = false;
     }
   };
 
