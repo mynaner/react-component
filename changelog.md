@@ -1,5 +1,12 @@
 
 
+## [0.2.9](https://github.com/mynaner/-yzt-react-component/compare/v0.2.8...v0.2.9) (2024-04-29)
+
+
+### 🐞问题修复
+
+* 1优化表格数据请求模式: 只有点击重置的时候会重置分页参数 ([8e0c906](https://github.com/mynaner/-yzt-react-component/commit/8e0c9062e3b49808f98e72f11baeeb396cba558e))
+
 ## [0.2.8](https://github.com/mynaner/react-component/compare/v0.2.7...v0.2.8) (2024-04-18)
 
 
