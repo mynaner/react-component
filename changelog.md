@@ -1,5 +1,12 @@
 
 
+## [0.2.10](https://github.com/mynaner/-yzt-react-component/compare/v0.2.9...v0.2.10) (2024-04-30)
+
+
+### 🐞问题修复
+
+* 优化表格数据请求模式 修改 getTableList函数 通过参数控制是否需要重置分页参数 ([2c62c19](https://github.com/mynaner/-yzt-react-component/commit/2c62c19564620f8c8103b52c6a796c436f4e2cc0))
+
 ## [0.2.9](https://github.com/mynaner/-yzt-react-component/compare/v0.2.8...v0.2.9) (2024-04-29)
 
 
