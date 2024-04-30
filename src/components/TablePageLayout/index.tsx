@@ -18,8 +18,8 @@ export interface TablePageLayoutRefProps<P extends Object = Object> {
     param?: P;
     data?: P;
   };
-  // 重新请求数据
-  getTableList: (e?: P) => void;
+  // 重新请求数据 isResetPage 是否重置分页参数然后请求数据
+  getTableList: (e?: P, isResetPage?: boolean) => void;
 }
 interface TablePageLayoutProps<T, P extends Object, C>
   extends Omit<TableProps<T>, "title" | "columns" | "children" | "pagination"> {
@@ -83,7 +83,7 @@ export const YLayoutTable = <
   /// 是否有分页
   const [isPagination, setIsPagination] = useBoolean(true);
 
-  const [constState, setConstState] = useState<P | { [key: string]: any }>();
+  const constState = useRef<P | { [key: string]: any }>();
   /// 存储查询表单的参数
   const [formState, setFormState] = useState<P>();
   /// 请求状态
@@ -119,7 +119,7 @@ export const YLayoutTable = <
       setLoading(true);
 
       const res = await getTableFn?.(
-        { ...fParams.param, ...pag, ...constState } as P,
+        { ...fParams.param, ...pag, ...constState.current } as P,
         fParams.data
       );
       if (isArray(res)) {
@@ -145,13 +145,11 @@ export const YLayoutTable = <
 
   /// 点击搜索查询数据
   const onChangeSearch = (e?: P, isReset?: boolean) => {
-    console.log(isReset);
-
     setFormState(e);
     if (isReset) {
-      getTable({ pageNum: 1, pageSize: 10 }, e);
-    } else {
       getTable(pagination, e);
+    } else {
+      getTable({ pageNum: 1, pageSize: 10 }, e);
     }
   };
 
@@ -159,12 +157,6 @@ export const YLayoutTable = <
   useEffect(() => {
     if (isRequest) initGetData();
   }, []);
-
-  useEffect(() => {
-    if (constState) {
-      initGetData();
-    }
-  }, [constState]);
 
   /// 获取图表数据
   const getCahrtData = async (data: Paging) => {
@@ -183,10 +175,16 @@ export const YLayoutTable = <
   };
 
   const initGetData = () => {
-    if (searchOptions?.length) {
+    if (searchOptions?.filter((e) => e.children || e.list)?.length) {
       searchRef.current?.onSearch?.();
     } else {
-      onChangeSearch();
+      const ls = searchOptions?.filter((e) => !(e.children || e.list));
+      const keyValue: P | { [key: string]: any } = {};
+      ls?.forEach((e) => {
+        keyValue[e.name] = e.initialValue;
+      });
+      // @ts-expect-error
+      onChangeSearch(keyValue);
     }
   };
 
@@ -202,9 +200,10 @@ export const YLayoutTable = <
           data?: P;
         };
       },
-      getTableList: (e) => {
-        if (e) {
-          setConstState(e);
+      getTableList: (e, isReset = false) => {
+        constState.current = e;
+        if (isReset) {
+          onChangeSearch(formState, isReset);
         } else {
           initGetData();
         }

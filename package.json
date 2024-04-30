@@ -17,14 +17,14 @@
     "pub": "release-it --ci"
   },
   "dependencies": {
-    "@ant-design/icons": ">=5.3.0",
+    "@ant-design/icons": "^5.3.6",
     "@types/node": ">=20.11.15",
-    "ahooks": "^3.7.10",
-    "antd": ">=5.13.3",
-    "dayjs": ">=1.11.10",
+    "ahooks": "^3.7.11",
+    "antd": ">=5.16.4",
+    "dayjs": ">=1.11.11",
     "lodash": ">=4.17.21",
     "path": ">=0.12.7",
-    "ramda": ">=0.29.1",
+    "ramda": ">=0.30.0",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "release-it": "^17.1.1"
