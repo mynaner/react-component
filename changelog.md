@@ -1,5 +1,12 @@
 
 
+## [0.2.11](https://github.com/mynaner/-yzt-react-component/compare/v0.2.10...v0.2.11) (2024-06-14)
+
+
+### 🐞问题修复
+
+* FormOptionType加入泛型,防止后端更改字段无法知晓 ([f04393e](https://github.com/mynaner/-yzt-react-component/commit/f04393ef3b544cd48af71883cb58e11337e5641b))
+
 ## [0.2.10](https://github.com/mynaner/-yzt-react-component/compare/v0.2.9...v0.2.10) (2024-04-30)
 
 
