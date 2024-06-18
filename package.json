@@ -16,10 +16,10 @@
     "release": "release-it",
     "pub": "release-it --ci"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@ant-design/icons": "^5.3.7",
     "ahooks": "^3.8.0",
-    "antd": ">=5.18.0",
+    "antd": "^5.18.0",
     "dayjs": ">=1.11.11",
     "lodash": ">=4.17.21",
     "ramda": ">=0.30.0",
