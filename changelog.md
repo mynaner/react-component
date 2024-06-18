@@ -1,5 +1,7 @@
 
 
+## [0.2.14](https://github.com/mynaner/-yzt-react-component/compare/v0.2.13...v0.2.14) (2024-06-18)
+
 ## [0.2.13](https://github.com/mynaner/-yzt-react-component/compare/v0.2.12...v0.2.13) (2024-06-18)
 
 
