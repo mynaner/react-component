@@ -1,5 +1,13 @@
 
 
+## [0.2.15](https://github.com/mynaner/-yzt-react-component/compare/v0.2.14...v0.2.15) (2024-06-18)
+
+
+### 🐞问题修复
+
+* 修改 ([9a32965](https://github.com/mynaner/-yzt-react-component/commit/9a329657a000e3d2579aba97f0fc39ec4eefbc51))
+* 指定当前 antd 兼容的宿主版本 ([7708d54](https://github.com/mynaner/-yzt-react-component/commit/7708d5451d7fd3651d9dc98886b83606417c48d8))
+
 ## [0.2.14](https://github.com/mynaner/-yzt-react-component/compare/v0.2.13...v0.2.14) (2024-06-18)
 
 ## [0.2.13](https://github.com/mynaner/-yzt-react-component/compare/v0.2.12...v0.2.13) (2024-06-18)
