@@ -1,5 +1,12 @@
 
 
+## [0.2.13](https://github.com/mynaner/-yzt-react-component/compare/v0.2.12...v0.2.13) (2024-06-18)
+
+
+### 🐞问题修复
+
+* 修改 ([2f83822](https://github.com/mynaner/-yzt-react-component/commit/2f838229669b799f14808ede1a14e317ab4bc8c9))
+
 ## [0.2.12](https://github.com/mynaner/-yzt-react-component/compare/v0.2.11...v0.2.12) (2024-06-18)
 
 
