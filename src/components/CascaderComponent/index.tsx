@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-18 18:23:54
+ * @LastEditTime: 2024-06-18 10:58:03
  * @FilePath: /yzt-react-component/src/components/CascaderComponent/index.tsx
  */
 import { Cascader, CascaderProps } from "antd";
+import { BaseOptionType } from "antd/lib/cascader";
 import { isNumber, isString } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 
@@ -22,7 +23,10 @@ export interface CascaderComponentProps<T, P>
   formatResult?: (e: CascaderValueType, selectOptions: T[]) => ValueType;
 }
 
-export const CascaderComponent = <T extends Record<string, any>, P = object>(
+export const CascaderComponent = <
+  T extends Record<string, any> & BaseOptionType,
+  P = object
+>(
   props: CascaderComponentProps<T, P>
 ) => {
   const {
@@ -107,7 +111,6 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
         );
       }
     });
-
   const _onChange = (val: CascaderValueType, selectOptions: T[]) => {
     onChange?.((val && formatResult?.(val, selectOptions)) ?? val);
   };
@@ -115,11 +118,15 @@ export const CascaderComponent = <T extends Record<string, any>, P = object>(
   return (
     // @ts-ignore
     <Cascader<T>
+      // @ts-ignore
       showSearch={{ filter }}
       loading={loading}
+      // @ts-ignore
       options={options}
+      // @ts-ignore
       value={_value}
       placeholder="请选择"
+      // @ts-ignore
       onChange={_onChange}
       onDropdownVisibleChange={onDropdownVisibleChange}
       fieldNames={fieldNames}
