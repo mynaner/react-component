@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-24 16:11:50
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-04 11:36:52
+ * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
+ * @LastEditTime: 2024-07-05 17:56:42
  * @FilePath: /yzt-react-component/src/components/DatePickerRangePickerComponent/index.tsx
  */
 import { DatePicker } from "antd";
@@ -14,9 +14,27 @@ export const DatePickerRangePickerComponent: FC<RangePickerProps> = (props) => {
     current && current > dayjs().endOf("day");
   const presets: RangePickerProps["presets"] = useMemo(() => {
     switch (props?.picker) {
+      case "year":
+        return [
+          { label: "今年", value: [dayjs().startOf("years"), dayjs()] },
+          {
+            label: "去年",
+            value: [
+              dayjs().add(-1, "year").startOf("year"),
+              dayjs().add(-1, "year").endOf("year"),
+            ],
+          },
+        ];
       case "month":
         return [
           { label: "本月", value: [dayjs().startOf("month"), dayjs()] },
+          {
+            label: "上月",
+            value: [
+              dayjs().add(-1, "month").startOf("month"),
+              dayjs().add(-1, "month").endOf("month"),
+            ],
+          },
           { label: "今年", value: [dayjs().startOf("years"), dayjs()] },
           {
             label: "去年",

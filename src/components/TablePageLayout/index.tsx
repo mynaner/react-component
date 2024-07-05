@@ -51,6 +51,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
     | ((e: { loading?: boolean; chartData?: C }) => JSX.Element);
   /// 是否自动执行请求 默认true
   isRequest?: boolean;
+  initPageSize?: number;
 }
 
 /**
@@ -77,6 +78,7 @@ export const YLayoutTable = <
     getCahrtDataFn,
     isRequest = true,
     onCallBack,
+    initPageSize,
     ...res
   } = props;
 
@@ -95,7 +97,7 @@ export const YLayoutTable = <
   /// 分页数据
   const [pagination, setPagination] = useState<YTablePaginationProps>({
     pageNum: 1,
-    pageSize: 10,
+    pageSize: initPageSize ?? 10,
   });
   /// 表格数据
   const [dataSource, setDataSource] = useState<T[]>([]);
@@ -165,7 +167,7 @@ export const YLayoutTable = <
 
     try {
       setCharLoading(true);
-      const res = await getCahrtDataFn?.(params.param);
+      const res = await getCahrtDataFn?.({ ...params.param, ...params.data });
       setChartData(res);
     } catch (error) {
       console.error(error);
