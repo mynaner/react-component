@@ -1,5 +1,12 @@
 
 
+## [0.2.16](https://github.com/mynaner/-yzt-react-component/compare/v0.2.15...v0.2.16) (2024-07-05)
+
+
+### 🐞问题修复
+
+* 1 时间区间选择器 快捷键选项逻辑优化,2 表格 chartData 请求 data 参数未传,3 表格添加初始化参数 initPageSize ([103c8c9](https://github.com/mynaner/-yzt-react-component/commit/103c8c91e9024fe24e07640e6acf858b0a807aba))
+
 ## [0.2.15](https://github.com/mynaner/-yzt-react-component/compare/v0.2.14...v0.2.15) (2024-06-18)
 
 
