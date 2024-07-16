@@ -1,10 +1,11 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-02-26 18:16:06
+ * @LastEditTime: 2024-07-15 16:04:05
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
+import { isUndefined } from "lodash";
 import { useEffect, useState } from "react";
 
 export interface SelectComponentProps<T, P>
@@ -23,6 +24,8 @@ export const SelectComponent = <T extends object, P = object>(
     getTreeData,
     params,
     fieldNames = { value: "id", label: "name" },
+    filterOption,
+    showSearch,
     ...res
   } = props;
 
@@ -50,8 +53,15 @@ export const SelectComponent = <T extends object, P = object>(
   return (
     <Select<T>
       loading={loading}
-      // @ts-ignore
       options={list}
+      filterOption={
+        isUndefined(filterOption)
+          ? (input, option) =>
+              (option?.[fieldNames.label ?? ""] ?? "")
+                .toLowerCase()
+                .includes(input.toLowerCase())
+          : filterOption
+      }
       fieldNames={getTreeData ? undefined : fieldNames}
       onDropdownVisibleChange={onDropdownVisibleChange}
       placeholder={"请选择"}
