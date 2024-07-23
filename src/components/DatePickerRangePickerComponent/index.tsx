@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-24 16:11:50
- * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2024-07-05 17:56:42
+ * @LastEditors: dengxin 994386508@qq.com
+ * @LastEditTime: 2024-07-23 17:34:50
  * @FilePath: /yzt-react-component/src/components/DatePickerRangePickerComponent/index.tsx
  */
 import { DatePicker } from "antd";
@@ -72,7 +72,7 @@ export const DatePickerRangePickerComponent: FC<RangePickerProps> = (props) => {
           },
         ];
     }
-  }, [props.presets]);
+  }, [props.picker]);
   return (
     <DatePicker.RangePicker
       disabledDate={props.disabledDate ?? disabledDate}
