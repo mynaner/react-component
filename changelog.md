@@ -1,5 +1,12 @@
 
 
+## [0.2.19](https://github.com/mynaner/-yzt-react-component/compare/v0.2.18...v0.2.19) (2024-07-30)
+
+
+### 🐞问题修复
+
+* onResetfn 非必填 ([475e06e](https://github.com/mynaner/-yzt-react-component/commit/475e06ecadbbce612d5c795db30e4b6556024218))
+
 ## [0.2.18](https://github.com/mynaner/-yzt-react-component/compare/v0.2.17...v0.2.18) (2024-07-30)
 
 
