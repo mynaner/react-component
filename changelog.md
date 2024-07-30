@@ -1,5 +1,14 @@
 
 
+## [0.2.18](https://github.com/mynaner/-yzt-react-component/compare/v0.2.17...v0.2.18) (2024-07-30)
+
+
+### 🐞问题修复
+
+*  DatePickerRangePickerComponent 监听对象错误 bug ([1ebe4e4](https://github.com/mynaner/-yzt-react-component/commit/1ebe4e489b3c0b69238939416cf3a6b24f065979))
+* Select组件 搜索过滤 ([66b4abb](https://github.com/mynaner/-yzt-react-component/commit/66b4abb4d31c7532c88f59b746763b8c8ea9d9c5))
+* 表格逻辑优化,新增 onResetfn 重置回调函数,优化search模块,搜索和重置分为两个函数 ([4f60bf0](https://github.com/mynaner/-yzt-react-component/commit/4f60bf00766afdd76ddaa66e3461e607ec75cfdb))
+
 ## [0.2.17](https://github.com/mynaner/-yzt-react-component/compare/v0.2.16...v0.2.17) (2024-07-08)
 
 ## [0.2.16](https://github.com/mynaner/-yzt-react-component/compare/v0.2.15...v0.2.16) (2024-07-05)
