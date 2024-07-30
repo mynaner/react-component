@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-07-30 15:35:46
+ * @LastEditTime: 2024-07-30 17:31:27
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -40,7 +40,7 @@ export interface SearchComponentType<T> {
   /// 点击搜索
   onChange: (p?: T) => void;
   /// 点击重置
-  onResetfn: (p?: T) => void;
+  onResetfn?: (p?: T) => void;
 }
 
 type WithOther<T> = T | { [key: string]: any };
@@ -113,7 +113,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     if (optionList.length) {
       form.resetFields();
     }
-    onResetfn(onFinish());
+    onResetfn?.(onFinish());
   };
 
   const onClose = () => {
