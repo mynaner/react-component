@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-04-30 14:47:49
+ * @LastEditTime: 2024-07-30 15:35:46
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -39,12 +39,14 @@ export interface SearchComponentType<T> {
   showReset?: boolean;
   /// 点击搜索
   onChange: (p?: T) => void;
+  /// 点击重置
+  onResetfn: (p?: T) => void;
 }
 
 type WithOther<T> = T | { [key: string]: any };
 
 export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
-  const { count, showReset = true, options, onChange } = props;
+  const { count, showReset = true, options, onChange, onResetfn } = props;
   if (count < 0) throw new Error("如果需要 showNum 必须大于1");
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<WithOther<T>>();
@@ -54,19 +56,18 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
   /// 过滤隐藏参数
   const optionList = options.filter((e) => e.children || e.list);
 
-  const onFinish = async (res: WithOther<T>) => {
+  const onFinish = (res: WithOther<T> = {}) => {
     const da: WithOther<T> = {};
     options
       .filter((e) => !(e.children || e.list))
       .forEach((e) => {
         da[e.name] = e.initialValue;
       });
-
-    onChange(changeData({ ...da, ...res }));
-
+    console.log(da);
     if (optionList.length) {
       onClose();
     }
+    return changeData({ ...da, ...res });
   };
 
   const changeData = (e: any) => {
@@ -108,13 +109,11 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     return values as T;
   };
 
-  const onReset = () => {
+  const onReset = async () => {
     if (optionList.length) {
       form.resetFields();
-      form.submit();
-    } else {
-      onFinish({});
     }
+    onResetfn(onFinish());
   };
 
   const onClose = () => {
@@ -146,11 +145,16 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     }
     setOpen(false);
   };
-
+  const onSearch = async () => {
+    try {
+      const res = await form.validateFields();
+      onChange(onFinish(res));
+    } catch (error) {}
+  };
   /// 对外暴露 函数
   useImperativeHandle(props.cRef, () => ({
     onReset: onReset,
-    onSearch: form.submit,
+    onSearch: onSearch,
   }));
 
   if (!optionList.length) return <></>;
@@ -160,7 +164,6 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
       style={{ maxWidth: "none" }}
       layout="inline"
       autoComplete="off"
-      onFinish={onFinish}
     >
       <Flex wrap="wrap" gap="8px 0">
         {getSearchOptionComponent({
@@ -170,7 +173,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
 
         <Form.Item>
           <Space>
-            <Button type="primary" onClick={form.submit}>
+            <Button type="primary" onClick={onSearch}>
               搜索
             </Button>
             {showReset && (
@@ -197,7 +200,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
               width={500}
               footer={
                 <Space split={<Divider type="vertical" />}>
-                  <Button type="primary" onClick={form.submit}>
+                  <Button type="primary" onClick={onSearch}>
                     确认
                   </Button>
                   <Button onClick={onClose}>取消</Button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useImperativeHandle, useRef } from "react";
-import { isArray, isFunction, isString } from "lodash";
+import { isArray, isEmpty, isFunction, isObject, isString } from "lodash";
 import { Flex, TableProps } from "antd";
-import { SorterResult } from "antd/lib/table/interface";
+import { Key } from "antd/lib/table/interface";
 import { IPage, Paging } from "../types/index";
 import { useBoolean } from "ahooks";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../YTableComponent";
 import { SearchComponent, SearchComponentRefType } from "../SearchComponent";
 import { FormOptionType } from "../SearchComponent/type";
+import { FilterValue } from "antd/es/table/interface";
 
 export interface TablePageLayoutRefProps<P extends Object = Object> {
   onSearch?: SearchComponentRefType["onSearch"];
@@ -27,6 +28,7 @@ interface TablePageLayoutProps<T, P extends Object, C>
   columns: YColumnsType<T>;
   /// 表格数据完成后的回调
   onCallBack?: (e: { search?: P; dataSource?: T[] }) => void;
+  searchReset?: () => void;
   /// 表格头部右边模块
   headerRight?:
     | JSX.Element
@@ -79,6 +81,8 @@ export const YLayoutTable = <
     isRequest = true,
     onCallBack,
     initPageSize,
+    onChange,
+    searchReset,
     ...res
   } = props;
 
@@ -86,7 +90,7 @@ export const YLayoutTable = <
   const [isPagination, setIsPagination] = useBoolean(true);
 
   const constState = useRef<P | { [key: string]: any }>();
-  /// 存储查询表单的参数
+  /// 存储查询表单的参数 (不会自动清除)
   const [formState, setFormState] = useState<P>();
   /// 请求状态
   const [loading, setLoading] = useState<boolean>();
@@ -95,7 +99,7 @@ export const YLayoutTable = <
   /// 图表请求到的数据
   const [chartData, setChartData] = useState<C>();
   /// 分页数据
-  const [pagination, setPagination] = useState<YTablePaginationProps>({
+  const paginationRef = useRef<YTablePaginationProps>({
     pageNum: 1,
     pageSize: initPageSize ?? 10,
   });
@@ -107,7 +111,7 @@ export const YLayoutTable = <
   /// 查询表格数据 搜索 切换分页,第一次进入的查询
   const getTable = async (pag: Paging, e?: Paging) => {
     /// 查询条件不需要total
-    const { total, ...page } = pagination;
+    const { total, ...page } = paginationRef.current;
     /// 合并查询条件 e 代表表单数据
     const params: Paging = { ...page, ...(e ?? formState) };
 
@@ -131,11 +135,11 @@ export const YLayoutTable = <
       } else {
         setDataSource((res as IPage<T>)?.records ?? []);
         /// 请求成功后再改变分页数据
-        setPagination({
-          ...pagination,
+        paginationRef.current = {
+          ...paginationRef.current,
           ...pag,
           total: (res as IPage<T>)?.total ?? 0,
-        });
+        };
         onCallBack?.({ search: params as P, dataSource: res?.records });
       }
     } catch (error) {
@@ -149,7 +153,7 @@ export const YLayoutTable = <
   const onChangeSearch = (e?: P, isReset?: boolean) => {
     setFormState(e);
     if (isReset) {
-      getTable(pagination, e);
+      getTable(paginationRef.current, e);
     } else {
       getTable({ pageNum: 1, pageSize: 10 }, e);
     }
@@ -203,7 +207,9 @@ export const YLayoutTable = <
         };
       },
       getTableList: (e, isReset = false) => {
-        constState.current = e;
+        if (e) {
+          constState.current = e;
+        }
         if (isReset) {
           onChangeSearch(formState, isReset);
         } else {
@@ -217,9 +223,17 @@ export const YLayoutTable = <
     <Flex vertical gap="middle">
       <SearchComponent<P>
         cRef={searchRef}
+        onResetfn={(e) => {
+          paginationRef.current = {
+            pageNum: 1,
+            pageSize: initPageSize ?? 10,
+          };
+          searchReset?.();
+          onChangeSearch(e);
+        }}
         options={searchOptions ?? []}
         count={showNum ?? 4}
-        onChange={onChangeSearch}
+        onChange={(e) => onChangeSearch(e, true)}
       />
       {isFunction(children)
         ? isFunction(getCahrtDataFn)
@@ -228,26 +242,48 @@ export const YLayoutTable = <
         : children}
       <YTable<T>
         dataSource={dataSource}
-        pagination={isPagination ? pagination : undefined}
+        pagination={isPagination ? paginationRef.current : undefined}
         loading={loading}
-        onChange={(e, _, d) => {
-          if (d && (d as SorterResult<T>).order) {
-            let order = "asc";
-            // @ts-ignore
-            if (d.order == "descend") order = "desc";
-            getTable({
-              pageNum: e.current,
-              pageSize: e.pageSize,
-              // @ts-ignore
-              orderBy: `${d.field} ${order}`,
-            });
-          } else {
-            getTable({
-              pageNum: e.current,
-              pageSize: e.pageSize,
-              orderBy: undefined,
-            });
+        onChange={(e, c, d, v) => {
+          console.log(e, c, d);
+          let orderBy: string | undefined = undefined;
+          if (isObject(d) && !isEmpty(d)) {
+            if (isArray(d)) {
+              // 多列排序,暂时不支持 因为 orderBy 非数组
+              // d.forEach((e) => {
+              //   let order = "asc";
+              //   if (e.order == "descend") order = "desc";
+              //   orderBy = `${e.field} ${order}`;
+              // });
+            } else {
+              let order = "asc";
+              if (d.order == "descend") order = "desc";
+              orderBy = `${d.field} ${order}`;
+            }
           }
+          let fromat: {
+            [key: string]: FilterValue | Key | boolean | undefined;
+          } = {};
+          if (c) {
+            for (const key in c) {
+              if (Object.prototype.hasOwnProperty.call(c, key)) {
+                const element = c[key];
+                if (element) {
+                  fromat[key] = element?.length == 1 ? element[0] : element;
+                } else {
+                  fromat[key] = undefined;
+                }
+              }
+            }
+          }
+
+          getTable({
+            pageNum: e.current,
+            pageSize: e.pageSize,
+            orderBy: orderBy,
+            ...fromat,
+          });
+          onChange?.(e, c, d, v);
         }}
         headerRight={
           isFunction(headerRight)
