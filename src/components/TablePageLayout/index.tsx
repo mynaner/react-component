@@ -153,7 +153,8 @@ export const YLayoutTable = <
   const onChangeSearch = (e?: P, isReset?: boolean) => {
     setFormState(e);
     if (isReset) {
-      getTable(paginationRef.current, e);
+      const { total, ...page } = paginationRef.current;
+      getTable(page, e);
     } else {
       getTable({ pageNum: 1, pageSize: 10 }, e);
     }

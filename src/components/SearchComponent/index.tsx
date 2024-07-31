@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-07-30 17:31:27
+ * @LastEditTime: 2024-07-31 16:07:18
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -111,9 +111,14 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
 
   const onReset = async () => {
     if (optionList.length) {
-      form.resetFields();
+      try {
+        form.resetFields();
+        const res = await form.validateFields();
+        onResetfn?.(onFinish(res));
+      } catch (error) {}
+    } else {
+      onResetfn?.(onFinish());
     }
-    onResetfn?.(onFinish());
   };
 
   const onClose = () => {
