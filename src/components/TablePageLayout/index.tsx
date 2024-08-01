@@ -118,12 +118,7 @@ export const YLayoutTable = <
     /// 查询条件不需要total
     const { total, ...page } = paginationRef.current;
     /// 根据情况重组数据 tips 主要是初始数据
-    console.log("formState", formState.current, searchOptions);
     const fParams = getFParams(formState.current as Paging, searchOptions);
-    console.log("fParams", fParams);
-    console.log("constState", constState.current);
-    console.log("formState", formState.current);
-    console.log("paginationRef", paginationRef.current);
 
     try {
       /// 当分页 pageNum 为1 的时候 并且有children 再获取图表数据
@@ -223,10 +218,6 @@ export const YLayoutTable = <
     })
   );
 
-  useEffect(() => {
-    console.log(paginationRef.current);
-  }, [paginationRef.current]);
-
   return (
     <Flex vertical gap="middle">
       <SearchComponent<P>
@@ -258,7 +249,6 @@ export const YLayoutTable = <
         pagination={isPagination ? paginationRef.current : undefined}
         loading={loading}
         onChange={(e, c, d, v) => {
-          console.log(e, c, d);
           let orderBy: string | undefined = undefined;
           if (isObject(d) && !isEmpty(d)) {
             if (isArray(d)) {

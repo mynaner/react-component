@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-03-06 16:33:40
+ * @LastEditTime: 2024-08-01 15:07:36
  * @FilePath: /yzt-react-component/src/components/TreeSelectComponent/index.tsx
  */
 import { TreeSelect, TreeSelectProps } from "antd";
@@ -82,8 +82,6 @@ export const TreeSelectComponent = <T extends object, P = object>(
   const _value = useMemo(() => {
     return !treeCheckable && isArray(value)
       ? value.find((e) => {
-          console.log(e);
-
           return e;
         })
       : value;

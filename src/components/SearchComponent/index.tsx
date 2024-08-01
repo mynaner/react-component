@@ -63,7 +63,6 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
       .forEach((e) => {
         da[e.name] = e.initialValue;
       });
-    console.log(da);
     if (optionList.length) {
       onClose();
     }
