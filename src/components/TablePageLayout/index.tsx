@@ -14,20 +14,24 @@ import { FormOptionType } from "../SearchComponent/type";
 import { FilterValue } from "antd/es/table/interface";
 
 export interface TablePageLayoutRefProps<P extends Object = Object> {
-  onSearch?: SearchComponentRefType["onSearch"];
   getFormState: () => {
     param?: P;
     data?: P;
   };
-  // 重新请求数据 isResetPage 是否重置分页参数然后请求数据
-  getTableList: (e?: P, isResetPage?: boolean) => void;
+  // 重新请求数据
+  getTableList: (e?: {
+    data?: P;
+    // 是否重置分页参数
+    isResetPage?: boolean;
+    // 是否重置表单参数
+    isResetForm?: boolean;
+    // 是否重置Const
+    isResetConst?: boolean;
+  }) => void;
 }
 interface TablePageLayoutProps<T, P extends Object, C>
   extends Omit<TableProps<T>, "title" | "columns" | "children" | "pagination"> {
-  ///
   columns: YColumnsType<T>;
-  /// 表格数据完成后的回调
-  onCallBack?: (e: { search?: P; dataSource?: T[] }) => void;
   searchReset?: () => void;
   /// 表格头部右边模块
   headerRight?:
@@ -79,8 +83,7 @@ export const YLayoutTable = <
     children,
     getCahrtDataFn,
     isRequest = true,
-    onCallBack,
-    initPageSize,
+    initPageSize = 10,
     onChange,
     searchReset,
     ...res
@@ -89,58 +92,55 @@ export const YLayoutTable = <
   /// 是否有分页
   const [isPagination, setIsPagination] = useBoolean(true);
 
+  /// 外部查询参数 | 分页,排序,重置,搜索 不会更改该数据 | 只有对外暴露的 getTableList 函数可以修改该对象
   const constState = useRef<P | { [key: string]: any }>();
-  /// 存储查询表单的参数 (不会自动清除)
-  const [formState, setFormState] = useState<P>();
+  /// 表单的参数 | 分页,排序时 使用该数据继续查询,|  getTableList ,重置,查询 | 会重置该对象 查询会以新值覆盖,
+  const formState = useRef<P>();
+  /// 分页参数以及 排序,或表格头筛选参数, |  getTableList 重置 |会重置该对象
+  const paginationRef = useRef<YTablePaginationProps>({
+    pageNum: 1,
+    pageSize: initPageSize,
+  });
   /// 请求状态
   const [loading, setLoading] = useState<boolean>();
   /// 图表的请求状态
   const [charLoading, setCharLoading] = useState<boolean>();
   /// 图表请求到的数据
   const [chartData, setChartData] = useState<C>();
-  /// 分页数据
-  const paginationRef = useRef<YTablePaginationProps>({
-    pageNum: 1,
-    pageSize: initPageSize ?? 10,
-  });
+
   /// 表格数据
   const [dataSource, setDataSource] = useState<T[]>([]);
 
   const searchRef = useRef<SearchComponentRefType>();
 
   /// 查询表格数据 搜索 切换分页,第一次进入的查询
-  const getTable = async (pag: Paging, e?: Paging) => {
+  const getTable = async () => {
     /// 查询条件不需要total
     const { total, ...page } = paginationRef.current;
-    /// 合并查询条件 e 代表表单数据
-    const params: Paging = { ...page, ...(e ?? formState) };
-
     /// 根据情况重组数据 tips 主要是初始数据
-    const fParams = getFParams(params, searchOptions);
+    console.log("formState", formState.current, searchOptions);
+    const fParams = getFParams(formState.current as Paging, searchOptions);
+    console.log("fParams", fParams);
+    console.log("constState", constState.current);
+    console.log("formState", formState.current);
+    console.log("paginationRef", paginationRef.current);
 
     try {
       /// 当分页 pageNum 为1 的时候 并且有children 再获取图表数据
       if (page.pageNum == 1) getCahrtData(fParams);
 
       setLoading(true);
-
       const res = await getTableFn?.(
-        { ...fParams.param, ...pag, ...constState.current } as P,
+        { ...fParams.param, ...page, ...constState.current } as P,
         fParams.data
       );
       if (isArray(res)) {
         setDataSource(res ?? []);
         setIsPagination.setFalse();
-        onCallBack?.({ search: params as P, dataSource: res });
       } else {
         setDataSource((res as IPage<T>)?.records ?? []);
         /// 请求成功后再改变分页数据
-        paginationRef.current = {
-          ...paginationRef.current,
-          ...pag,
-          total: (res as IPage<T>)?.total ?? 0,
-        };
-        onCallBack?.({ search: params as P, dataSource: res?.records });
+        paginationRef.current.total = (res as IPage<T>)?.total ?? 0;
       }
     } catch (error) {
       console.error(error);
@@ -149,20 +149,20 @@ export const YLayoutTable = <
     }
   };
 
-  /// 点击搜索查询数据
-  const onChangeSearch = (e?: P, isReset?: boolean) => {
-    setFormState(e);
-    if (isReset) {
-      const { total, ...page } = paginationRef.current;
-      getTable(page, e);
-    } else {
-      getTable({ pageNum: 1, pageSize: 10 }, e);
-    }
-  };
+  // /// 点击搜索查询数据
+  // const onChangeSearch = (e?: P, isReset?: boolean) => {
+  //   setFormState(e);
+  //   if (isReset) {
+  //     const { total, ...page } = paginationRef.current;
+  //     getTable(page, e);
+  //   } else {
+  //     getTable({ pageNum: 1, pageSize: 10 }, e);
+  //   }
+  // };
 
   /// 页面初始化后获取图表数据
   useEffect(() => {
-    if (isRequest) initGetData();
+    if (isRequest) searchRef.current?.onSearch?.();
   }, []);
 
   /// 获取图表数据
@@ -181,60 +181,72 @@ export const YLayoutTable = <
     }
   };
 
-  const initGetData = () => {
-    if (searchOptions?.filter((e) => e.children || e.list)?.length) {
-      searchRef.current?.onSearch?.();
-    } else {
-      const ls = searchOptions?.filter((e) => !(e.children || e.list));
-      const keyValue: P | { [key: string]: any } = {};
-      ls?.forEach((e) => {
-        keyValue[e.name] = e.initialValue;
-      });
-      // @ts-expect-error
-      onChangeSearch(keyValue);
-    }
-  };
+  // const initGetData = () => {
+  //   if (searchOptions?.filter((e) => e.children || e.list)?.length) {
+  //     searchRef.current?.onSearch?.();
+  //   } else {
+  //     const ls = searchOptions?.filter((e) => !(e.children || e.list));
+  //     const keyValue: P | { [key: string]: any } = {};
+  //     ls?.forEach((e) => {
+  //       keyValue[e.name] = e.initialValue;
+  //     });
+
+  //     onChangeSearch(keyValue);
+  //   }
+  // };
 
   /// 对外暴露 函数
   useImperativeHandle(
     props.cRef,
     (): TablePageLayoutRefProps<P> => ({
-      onSearch: searchRef.current?.onSearch,
       getFormState: () => {
-        const fParams = getFParams({ ...formState }, searchOptions);
+        const fParams = getFParams({ ...formState.current }, searchOptions);
         return fParams as {
           param?: P;
           data?: P;
         };
       },
-      getTableList: (e, isReset = false) => {
+      getTableList: (e) => {
         if (e) {
-          constState.current = e;
+          const { data, isResetConst, isResetForm, isResetPage } = e;
+          if (data || isResetConst)
+            constState.current = { ...constState.current, ...data };
+          if (isResetPage) paginationRef.current.pageNum = 1;
+
+          if (isResetForm) {
+            searchRef.current?.onReset?.();
+            return;
+          }
         }
-        if (isReset) {
-          onChangeSearch(formState, isReset);
-        } else {
-          initGetData();
-        }
+        getTable();
       },
     })
   );
+
+  useEffect(() => {
+    console.log(paginationRef.current);
+  }, [paginationRef.current]);
 
   return (
     <Flex vertical gap="middle">
       <SearchComponent<P>
         cRef={searchRef}
         onResetfn={(e) => {
+          formState.current = e;
           paginationRef.current = {
             pageNum: 1,
-            pageSize: initPageSize ?? 10,
+            pageSize: initPageSize,
           };
           searchReset?.();
-          onChangeSearch(e);
+          getTable();
         }}
         options={searchOptions ?? []}
         count={showNum ?? 4}
-        onChange={(e) => onChangeSearch(e, true)}
+        onChange={(e) => {
+          formState.current = e;
+          paginationRef.current.pageNum = 1;
+          getTable();
+        }}
       />
       {isFunction(children)
         ? isFunction(getCahrtDataFn)
@@ -277,18 +289,20 @@ export const YLayoutTable = <
               }
             }
           }
-
-          getTable({
+          paginationRef.current = {
             pageNum: e.current,
             pageSize: e.pageSize,
             orderBy: orderBy,
+            total: e.total,
             ...fromat,
-          });
+          };
+
+          getTable();
           onChange?.(e, c, d, v);
         }}
         headerRight={
           isFunction(headerRight)
-            ? headerRight?.({ search: formState, dataSource })
+            ? headerRight?.({ search: formState.current, dataSource })
             : headerRight
         }
         title={title}
@@ -308,9 +322,9 @@ const getFParams = (fParams: Paging, options?: FormOptionType[]) => {
         .split("_")
         .forEach((e) => {
           if (el.setting?.request == "body") {
-            data[e] = fParams[e];
+            data[e] = fParams ? fParams[e] : el.initialValue;
           } else {
-            param[e] = fParams[e];
+            param[e] = fParams ? fParams[e] : el.initialValue;
           }
         });
     } else if (el.list?.length) {
@@ -321,9 +335,9 @@ const getFParams = (fParams: Paging, options?: FormOptionType[]) => {
             .split("_")
             .forEach((e) => {
               if (el.setting?.request == "body") {
-                data[e] = fParams[e];
+                data[e] = fParams ? fParams[e] : el.initialValue;
               } else {
-                param[e] = fParams[e];
+                param[e] = fParams ? fParams[e] : el.initialValue;
               }
             });
         }

@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 22:47:04
- * @LastEditors: Knight
- * @LastEditTime: 2024-04-16 16:32:51
+ * @LastEditors: dengxin 994386508@qq.com
+ * @LastEditTime: 2024-08-01 10:02:50
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
 import { add, isNumber, isString } from "lodash";
@@ -63,6 +63,7 @@ export interface YTablePaginationProps {
   total?: number;
   pageSize?: number;
   pageNum?: number;
+  [key: string]: any;
 }
 
 interface YTableComponentProps<T>
