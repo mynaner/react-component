@@ -1,5 +1,12 @@
 
 
+## [0.2.22](https://github.com/mynaner/-yzt-react-component/compare/v0.2.21...v0.2.22) (2024-08-01)
+
+
+### 🐞问题修复
+
+* 表格查询数据逻辑重构 ([434456c](https://github.com/mynaner/-yzt-react-component/commit/434456c7728a3e2a9c82de8386a192a362df3850))
+
 ## [0.2.21](https://github.com/mynaner/-yzt-react-component/compare/v0.2.20...v0.2.21) (2024-07-31)
 
 
