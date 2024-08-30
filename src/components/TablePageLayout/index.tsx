@@ -36,7 +36,10 @@ interface TablePageLayoutProps<T, P extends Object, C>
   /// 表格头部右边模块
   headerRight?:
     | JSX.Element
-    | ((e: { search?: P; dataSource?: T[] }) => JSX.Element);
+    | ((e: {
+        search?: { params?: P; data?: P };
+        dataSource?: T[];
+      }) => JSX.Element);
   // 约束该函数类型 继承 Paging
   getTableFn?: (
     params: P,
@@ -107,6 +110,11 @@ export const YLayoutTable = <
   const [charLoading, setCharLoading] = useState<boolean>();
   /// 图表请求到的数据
   const [chartData, setChartData] = useState<C>();
+  /// 缓冲当前请求的参数
+  const [serachData, setSearchData] = useState<{ params?: P; data?: P }>({
+    params: undefined,
+    data: undefined,
+  });
 
   /// 表格数据
   const [dataSource, setDataSource] = useState<T[]>([]);
@@ -125,6 +133,10 @@ export const YLayoutTable = <
       if (page.pageNum == 1) getCahrtData(fParams);
 
       setLoading(true);
+      setSearchData({
+        params: { ...fParams.param, ...page, ...constState.current } as P,
+        data: fParams.data as P,
+      });
       const res = await getTableFn?.(
         { ...fParams.param, ...page, ...constState.current } as P,
         fParams.data
@@ -194,13 +206,7 @@ export const YLayoutTable = <
   useImperativeHandle(
     props.cRef,
     (): TablePageLayoutRefProps<P> => ({
-      getFormState: () => {
-        const fParams = getFParams({ ...formState.current }, searchOptions);
-        return fParams as {
-          param?: P;
-          data?: P;
-        };
-      },
+      getFormState: () => serachData,
       getTableList: (e) => {
         if (e) {
           const { data, isResetConst, isResetForm, isResetPage } = e;
@@ -292,7 +298,10 @@ export const YLayoutTable = <
         }}
         headerRight={
           isFunction(headerRight)
-            ? headerRight?.({ search: formState.current, dataSource })
+            ? headerRight?.({
+                search: serachData,
+                dataSource,
+              })
             : headerRight
         }
         title={title}
