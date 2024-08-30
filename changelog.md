@@ -1,5 +1,13 @@
 
 
+## [0.2.23](https://github.com/mynaner/-yzt-react-component/compare/v0.2.22...v0.2.23) (2024-08-30)
+
+
+### 🐞问题修复
+
+* 修复 headerRight 函数 参数不全的bug ([a2e6255](https://github.com/mynaner/-yzt-react-component/commit/a2e6255f7231f26fa9a6b8a9316f445476294d5a))
+* 移除 console ([2a852d0](https://github.com/mynaner/-yzt-react-component/commit/2a852d02e8dabf58afa6fa5db7ae5b1143775849))
+
 ## [0.2.22](https://github.com/mynaner/-yzt-react-component/compare/v0.2.21...v0.2.22) (2024-08-01)
 
 
