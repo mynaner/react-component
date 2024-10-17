@@ -1,5 +1,12 @@
 
 
+## [0.3.0](https://github.com/mynaner/-yzt-react-component/compare/v0.2.23...v0.3.0) (2024-10-17)
+
+
+### ✨新功能
+
+* 1,表格title 可以传入false,表示隐藏表头, ([2c804c6](https://github.com/mynaner/-yzt-react-component/commit/2c804c68b2477327128a492af16e97f87a5fc923))
+
 ## [0.2.23](https://github.com/mynaner/-yzt-react-component/compare/v0.2.22...v0.2.23) (2024-08-30)
 
 
