@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 22:47:04
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-08-01 10:02:50
+ * @LastEditors: myclooe 994386508@qq.com
+ * @LastEditTime: 2024-10-17 10:48:28
  * @FilePath: /yzt-react-component/src/components/YTableComponent/index.tsx
  */
 import { add, isNumber, isString } from "lodash";
@@ -84,6 +84,7 @@ export const YTable = <T extends unknown>(props: YTableComponentProps<T>) => {
     ...res
   } = props;
   const tableTitle = () => {
+
     return (
       <div className="flex justify-between items-center">
         {isValidElement(title) ? (
@@ -106,7 +107,7 @@ export const YTable = <T extends unknown>(props: YTableComponentProps<T>) => {
       rowKey={(item?: any) =>
         item?.id ?? `${keyId}_${Math.random().toString(36).substring(2, 10)}`
       }
-      title={tableTitle}
+      title={title == false ? undefined : tableTitle}
       pagination={getPagination(pagination)}
       columns={columnTypefn(columns)}
       summary={(dataSource) => getSummary(dataSource, columnTypefn(columns))}

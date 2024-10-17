@@ -21,6 +21,7 @@ export interface TablePageLayoutRefProps<P extends Object = Object> {
   // 重新请求数据
   getTableList: (e?: {
     data?: P;
+    param?: P;
     // 是否重置分页参数
     isResetPage?: boolean;
     // 是否重置表单参数
@@ -35,11 +36,11 @@ interface TablePageLayoutProps<T, P extends Object, C>
   searchReset?: () => void;
   /// 表格头部右边模块
   headerRight?:
-    | JSX.Element
-    | ((e: {
-        search?: { params?: P; data?: P };
-        dataSource?: T[];
-      }) => JSX.Element);
+  | JSX.Element
+  | ((e: {
+    search?: { params?: P; data?: P };
+    dataSource?: T[];
+  }) => JSX.Element);
   // 约束该函数类型 继承 Paging
   getTableFn?: (
     params: P,
@@ -55,9 +56,9 @@ interface TablePageLayoutProps<T, P extends Object, C>
   cRef?: React.MutableRefObject<TablePageLayoutRefProps<P> | undefined>;
   ///
   children?:
-    | JSX.Element
-    | JSX.Element[]
-    | ((e: { loading?: boolean; chartData?: C }) => JSX.Element);
+  | JSX.Element
+  | JSX.Element[]
+  | ((e: { loading?: boolean; chartData?: C }) => JSX.Element);
   /// 是否自动执行请求 默认true
   isRequest?: boolean;
   initPageSize?: number;
@@ -96,7 +97,7 @@ export const YLayoutTable = <
   const [isPagination, setIsPagination] = useBoolean(true);
 
   /// 外部查询参数 | 分页,排序,重置,搜索 不会更改该数据 | 只有对外暴露的 getTableList 函数可以修改该对象
-  const constState = useRef<P | { [key: string]: any }>();
+  const constState = useRef<{ param: P | { [key: string]: any }, data: P | { [key: string]: any } }>();
   /// 表单的参数 | 分页,排序时 使用该数据继续查询,|  getTableList ,重置,查询 | 会重置该对象 查询会以新值覆盖,
   const formState = useRef<P>();
   /// 分页参数以及 排序,或表格头筛选参数, |  getTableList 重置 |会重置该对象
@@ -134,12 +135,12 @@ export const YLayoutTable = <
 
       setLoading(true);
       setSearchData({
-        params: { ...fParams.param, ...page, ...constState.current } as P,
-        data: fParams.data as P,
+        params: { ...fParams.param, ...page, ...constState.current?.param } as P,
+        data: { ...fParams.data as P, ...constState.current?.data },
       });
       const res = await getTableFn?.(
-        { ...fParams.param, ...page, ...constState.current } as P,
-        fParams.data
+        { ...fParams.param, ...page, ...constState.current?.param } as P,
+        { ...fParams.data, ...constState.current?.data }
       );
       if (isArray(res)) {
         setDataSource(res ?? []);
@@ -209,9 +210,9 @@ export const YLayoutTable = <
       getFormState: () => serachData,
       getTableList: (e) => {
         if (e) {
-          const { data, isResetConst, isResetForm, isResetPage } = e;
-          if (data || isResetConst)
-            constState.current = { ...constState.current, ...data };
+          const { data, param, isResetConst, isResetForm, isResetPage } = e;
+          if (data || param || isResetConst)
+            constState.current = { data: { ...constState.current?.data, ...data }, param: { ...constState.current?.param, ...param } };
           if (isResetPage) paginationRef.current.pageNum = 1;
 
           if (isResetForm) {
@@ -299,9 +300,9 @@ export const YLayoutTable = <
         headerRight={
           isFunction(headerRight)
             ? headerRight?.({
-                search: serachData,
-                dataSource,
-              })
+              search: serachData,
+              dataSource,
+            })
             : headerRight
         }
         title={title}
