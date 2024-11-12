@@ -1,5 +1,13 @@
 
 
+## [0.3.1](https://github.com/mynaner/-yzt-react-component/compare/v0.3.0...v0.3.1) (2024-11-12)
+
+
+### 🐞问题修复
+
+* 更新依赖 ([e1bee86](https://github.com/mynaner/-yzt-react-component/commit/e1bee86046d3efc6e28b4caf6d011f883148fd19))
+* 修复排序查询的 bug ([e7dd4de](https://github.com/mynaner/-yzt-react-component/commit/e7dd4def14a55e99960fe3448096f210d7f7b8d2))
+
 ## [0.3.0](https://github.com/mynaner/-yzt-react-component/compare/v0.2.23...v0.3.0) (2024-10-17)
 
 
