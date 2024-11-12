@@ -266,9 +266,13 @@ export const YLayoutTable = <
               //   orderBy = `${e.field} ${order}`;
               // });
             } else {
-              let order = "asc";
-              if (d.order == "descend") order = "desc";
-              orderBy = `${d.field} ${order}`;
+              if (!d.order) {
+                orderBy = ""
+              } else {
+                let order = "asc";
+                if (d.order == "descend") order = "desc";
+                orderBy = `${d.field} ${order}`;
+              }
             }
           }
           let fromat: {
