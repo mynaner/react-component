@@ -15,7 +15,7 @@ import { FilterValue } from "antd/es/table/interface";
 
 export interface TablePageLayoutRefProps<P extends Object = Object> {
   getFormState: () => {
-    param?: P;
+    params?: P;
     data?: P;
   };
   // 重新请求数据
