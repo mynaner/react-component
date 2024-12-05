@@ -322,7 +322,7 @@ const getFParams = (fParams: Paging, options?: FormOptionType[]) => {
   options?.forEach((el) => {
     if (isString(el.name)) {
       el.name
-        .split(":")[0]
+        .split("*")[0]
         .split("_")
         .forEach((e) => {
           if (el.setting?.request == "body") {
@@ -335,7 +335,7 @@ const getFParams = (fParams: Paging, options?: FormOptionType[]) => {
       el.list.forEach((el) => {
         if (isString(el.name)) {
           el.name
-            .split(":")[0]
+            .split("*")[0]
             .split("_")
             .forEach((e) => {
               if (el.setting?.request == "body") {

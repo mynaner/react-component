@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-24 16:11:50
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-07-23 17:34:50
+ * @LastEditors: myclooe 994386508@qq.com
+ * @LastEditTime: 2024-12-05 16:16:43
  * @FilePath: /yzt-react-component/src/components/DatePickerRangePickerComponent/index.tsx
  */
 import { DatePicker } from "antd";
@@ -45,7 +45,7 @@ export const DatePickerRangePickerComponent: FC<RangePickerProps> = (props) => {
           },
         ];
       default:
-        return [
+        let list: RangePickerProps["presets"] = [
           { label: "本周", value: [dayjs().startOf("week"), dayjs()] },
           {
             label: "上周",
@@ -71,6 +71,17 @@ export const DatePickerRangePickerComponent: FC<RangePickerProps> = (props) => {
             ],
           },
         ];
+
+        if (props.showTime) {
+          list.unshift({
+            label: "今天",
+            value: [
+              dayjs().startOf("day"),
+              dayjs().endOf("day"),
+            ],
+          })
+        }
+        return list;
     }
   }, [props.picker]);
   return (

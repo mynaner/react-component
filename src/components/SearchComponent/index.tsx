@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-07-31 16:07:18
+ * @LastEditors: myclooe 994386508@qq.com
+ * @LastEditTime: 2024-12-05 16:11:50
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -74,7 +74,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     for (const key in e) {
       if (Object.prototype.hasOwnProperty.call(e, key)) {
         const element = e[key];
-        const keys = key.split(/_|:/);
+        const keys = key.split(/_|\*/);
 
         if (isArray(element)) {
           if (keys.length - 1 === element.length) {
@@ -114,7 +114,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
         form.resetFields();
         const res = await form.validateFields();
         onResetfn?.(onFinish(res));
-      } catch (error) {}
+      } catch (error) { }
     } else {
       onResetfn?.(onFinish());
     }
@@ -153,7 +153,7 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
     try {
       const res = await form.validateFields();
       onChange(onFinish(res));
-    } catch (error) {}
+    } catch (error) { }
   };
   /// 对外暴露 函数
   useImperativeHandle(props.cRef, () => ({
@@ -306,6 +306,16 @@ const elementAddProps = (item: FormOptionType, width: string = "100%") => {
       ev.allowClear = false;
       return (
         <DatePickerRangePickerComponent
+          style={{ width: setting?.width ?? "100%" }}
+          {...ev}
+        />
+      );
+    } else if (children == "YDatePickerRangePickerShowTime") {
+      const { placeholder, ...ev } = prpos;
+      ev.allowClear = false;
+      return (
+        <DatePickerRangePickerComponent
+          showTime
           style={{ width: setting?.width ?? "100%" }}
           {...ev}
         />
