@@ -1,5 +1,16 @@
 
 
+## [0.3.4](https://github.com/mynaner/-yzt-react-component/compare/v0.3.1...v0.3.4) (2025-02-10)
+
+
+### 🐞问题修复
+
+*  YDatePickerRangePickerShowTime 的搜索, 修改 FormOptionType : name 使用 * 进行分割,前面的为数据key后面的为时间格式化 ([a254f8f](https://github.com/mynaner/-yzt-react-component/commit/a254f8fe513453db51d51f613c0722d82499406f))
+* 修复 getFormState  params 错误的bug ([523ee3a](https://github.com/mynaner/-yzt-react-component/commit/523ee3a4180e1114a955155a4304139c0c12acce))
+* 修改 ([91f42a1](https://github.com/mynaner/-yzt-react-component/commit/91f42a132f194d1321d2cf86d24b390c94c0b823))
+* 修改 ([4137845](https://github.com/mynaner/-yzt-react-component/commit/4137845651f1a87ee8f959d501b00fc82005b5c9))
+* pub 前  build ([8d9915f](https://github.com/mynaner/-yzt-react-component/commit/8d9915f4d4c0fc600ff9aba91fa61dbeecc679c4))
+
 ## [0.3.2](https://github.com/mynaner/-yzt-react-component/compare/v0.3.1...v0.3.2) (2024-12-05)
 
 
