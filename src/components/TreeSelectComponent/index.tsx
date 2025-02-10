@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-08-01 15:07:36
+ * @LastEditors: myclooe 994386508@qq.com
+ * @LastEditTime: 2025-02-10 10:48:14
  * @FilePath: /yzt-react-component/src/components/TreeSelectComponent/index.tsx
  */
 import { TreeSelect, TreeSelectProps } from "antd";
@@ -55,10 +55,10 @@ export const TreeSelectComponent = <T extends object, P = object>(
     }
   };
   useEffect(() => {
-    if (value) {
+    if (value || res.defaultValue) {
       onDropdownVisibleChange();
     }
-  }, [value]);
+  }, [value, res.defaultValue]);
 
   const getDate = async (p?: P) => {
     try {
@@ -82,8 +82,8 @@ export const TreeSelectComponent = <T extends object, P = object>(
   const _value = useMemo(() => {
     return !treeCheckable && isArray(value)
       ? value.find((e) => {
-          return e;
-        })
+        return e;
+      })
       : value;
   }, [value]);
 
