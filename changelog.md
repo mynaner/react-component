@@ -1,5 +1,12 @@
 
 
+## [0.3.5](https://github.com/mynaner/-yzt-react-component/compare/v0.3.4...v0.3.5) (2025-02-21)
+
+
+### 🐞问题修复
+
+* SelectComponent  showSearch 参数失效 ([e86e1d3](https://github.com/mynaner/-yzt-react-component/commit/e86e1d3ed64906dbf4058458a7d139d92e3fd3d4))
+
 ## [0.3.4](https://github.com/mynaner/-yzt-react-component/compare/v0.3.1...v0.3.4) (2025-02-10)
 
 
