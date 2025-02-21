@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
- * @LastEditors: dengxin 994386508@qq.com
- * @LastEditTime: 2024-07-15 16:04:05
+ * @LastEditors: myclooe 994386508@qq.com
+ * @LastEditTime: 2025-02-21 11:44:30
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
@@ -25,7 +25,6 @@ export const SelectComponent = <T extends object, P = object>(
     params,
     fieldNames = { value: "id", label: "name" },
     filterOption,
-    showSearch,
     ...res
   } = props;
 
@@ -57,9 +56,9 @@ export const SelectComponent = <T extends object, P = object>(
       filterOption={
         isUndefined(filterOption)
           ? (input, option) =>
-              (option?.[fieldNames.label ?? ""] ?? "")
-                .toLowerCase()
-                .includes(input.toLowerCase())
+            (option?.[fieldNames.label ?? ""] ?? "")
+              .toLowerCase()
+              .includes(input.toLowerCase())
           : filterOption
       }
       fieldNames={getTreeData ? undefined : fieldNames}
