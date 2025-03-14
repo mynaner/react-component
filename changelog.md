@@ -1,5 +1,12 @@
 
 
+## [0.3.7](https://github.com/mynaner/-yzt-react-component/compare/v0.3.6...v0.3.7) (2025-03-14)
+
+
+### 🐞问题修复
+
+*  新增  orderBy 默认字段 ([01552c5](https://github.com/mynaner/-yzt-react-component/commit/01552c5cbe673a8e10f721ab9e4af71ac8d7ece7))
+
 ## [0.3.6](https://github.com/mynaner/-yzt-react-component/compare/v0.3.5...v0.3.6) (2025-02-21)
 
 ## [0.3.5](https://github.com/mynaner/-yzt-react-component/compare/v0.3.4...v0.3.5) (2025-02-21)
