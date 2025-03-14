@@ -61,7 +61,10 @@ interface TablePageLayoutProps<T, P extends Object, C>
   | ((e: { loading?: boolean; chartData?: C }) => JSX.Element);
   /// 是否自动执行请求 默认true
   isRequest?: boolean;
+  // 默认每页条数
   initPageSize?: number;
+  // 排序 key 字段
+  orderByName?: string;
 }
 
 /**
@@ -293,7 +296,7 @@ export const YLayoutTable = <
           paginationRef.current = {
             pageNum: e.current,
             pageSize: e.pageSize,
-            orderBy: orderBy,
+            [props.orderByName ?? 'orderBy']: orderBy,
             total: e.total,
             ...fromat,
           };
