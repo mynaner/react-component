@@ -232,7 +232,7 @@ export const YLayoutTable = <
 
   return (
     <Flex vertical gap="middle">
-      <div className={props.searchClassName ?? ""}>
+      <div className={`px-2 py-4 rounded-lg shadow-sm ${props.searchClassName ?? res.className}`}>
         <SearchComponent<P>
           cRef={searchRef}
           onResetfn={(e) => {
@@ -259,6 +259,7 @@ export const YLayoutTable = <
           : undefined
         : children}
       <YTable<T>
+
         dataSource={dataSource}
         pagination={isPagination ? paginationRef.current : undefined}
         loading={loading}
@@ -317,6 +318,7 @@ export const YLayoutTable = <
             : headerRight
         }
         title={title}
+        className={`rounded-lg shadow-sm ${res.className}`}
         {...res}
       />
     </Flex>
