@@ -232,7 +232,7 @@ export const YLayoutTable = <
 
   return (
     <Flex vertical gap="middle">
-      <div className={props.searchClassName ??= ""}>
+      <div className={props.searchClassName ?? ""}>
         <SearchComponent<P>
           cRef={searchRef}
           onResetfn={(e) => {
