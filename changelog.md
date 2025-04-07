@@ -1,5 +1,12 @@
 
 
+## [0.3.8](https://github.com/mynaner/-yzt-react-component/compare/v0.3.7...v0.3.8) (2025-04-07)
+
+
+### 🐞问题修复
+
+* YLayoutTable 添加 searchClassName 字段 ([c4b3884](https://github.com/mynaner/-yzt-react-component/commit/c4b3884e0e762aa60ab07dce4a93d01ad86b5fad))
+
 ## [0.3.7](https://github.com/mynaner/-yzt-react-component/compare/v0.3.6...v0.3.7) (2025-03-14)
 
 
