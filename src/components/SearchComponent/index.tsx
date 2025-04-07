@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-23 08:08:23
  * @LastEditors: myclooe 994386508@qq.com
- * @LastEditTime: 2024-12-05 16:11:50
+ * @LastEditTime: 2025-04-07 15:40:02
  * @FilePath: /yzt-react-component/src/components/SearchComponent/index.tsx
  */
 import { FilterFilled } from "@ant-design/icons";
@@ -41,12 +41,13 @@ export interface SearchComponentType<T> {
   onChange: (p?: T) => void;
   /// 点击重置
   onResetfn?: (p?: T) => void;
+  className?: string
 }
 
 type WithOther<T> = T | { [key: string]: any };
 
 export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
-  const { count, showReset = true, options, onChange, onResetfn } = props;
+  const { count, showReset = true, options, onChange, onResetfn, className } = props;
   if (count < 0) throw new Error("如果需要 showNum 必须大于1");
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm<WithOther<T>>();
@@ -163,64 +164,66 @@ export const SearchComponent = <T,>(props: SearchComponentType<T>) => {
 
   if (!optionList.length) return <></>;
   return (
-    <Form
-      form={form}
-      style={{ maxWidth: "none" }}
-      layout="inline"
-      autoComplete="off"
-    >
-      <Flex wrap="wrap" gap="8px 0">
-        {getSearchOptionComponent({
-          options: optionList.slice(0, isCount ? count : optionList.length),
-          isOther: false,
-        })}
+    <div className={className}>
+      <Form
+        form={form}
+        style={{ maxWidth: "none" }}
+        layout="inline"
+        autoComplete="off"
+      >
+        <Flex wrap="wrap" gap="8px 0">
+          {getSearchOptionComponent({
+            options: optionList.slice(0, isCount ? count : optionList.length),
+            isOther: false,
+          })}
 
-        <Form.Item>
-          <Space>
-            <Button type="primary" onClick={onSearch}>
-              搜索
-            </Button>
-            {showReset && (
-              <Button htmlType="button" onClick={onReset}>
-                重置
-              </Button>
-            )}
-          </Space>
-        </Form.Item>
-        {isCount ? (
           <Form.Item>
-            <FilterFilled
-              onClick={() => setOpen(true)}
-              style={{
-                color: isSelect ? "rgb(51,167,255)" : "",
-                cursor: "pointer",
-              }}
-            />
-            <Drawer
-              title="更多条件查询"
-              placement="right"
-              onClose={onClose}
-              open={open}
-              width={500}
-              footer={
-                <Space split={<Divider type="vertical" />}>
-                  <Button type="primary" onClick={onSearch}>
-                    确认
-                  </Button>
-                  <Button onClick={onClose}>取消</Button>
-                </Space>
-              }
-            >
-              {getSearchOptionComponent({
-                options: optionList.slice(count),
-                isOther: true,
-                labelCol: { span: 5 },
-              })}
-            </Drawer>
+            <Space>
+              <Button type="primary" onClick={onSearch}>
+                搜索
+              </Button>
+              {showReset && (
+                <Button htmlType="button" onClick={onReset}>
+                  重置
+                </Button>
+              )}
+            </Space>
           </Form.Item>
-        ) : null}
-      </Flex>
-    </Form>
+          {isCount ? (
+            <Form.Item>
+              <FilterFilled
+                onClick={() => setOpen(true)}
+                style={{
+                  color: isSelect ? "rgb(51,167,255)" : "",
+                  cursor: "pointer",
+                }}
+              />
+              <Drawer
+                title="更多条件查询"
+                placement="right"
+                onClose={onClose}
+                open={open}
+                width={500}
+                footer={
+                  <Space split={<Divider type="vertical" />}>
+                    <Button type="primary" onClick={onSearch}>
+                      确认
+                    </Button>
+                    <Button onClick={onClose}>取消</Button>
+                  </Space>
+                }
+              >
+                {getSearchOptionComponent({
+                  options: optionList.slice(count),
+                  isOther: true,
+                  labelCol: { span: 5 },
+                })}
+              </Drawer>
+            </Form.Item>
+          ) : null}
+        </Flex>
+      </Form>
+    </div>
   );
 };
 

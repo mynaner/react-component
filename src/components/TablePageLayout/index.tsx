@@ -232,27 +232,26 @@ export const YLayoutTable = <
 
   return (
     <Flex vertical gap="middle">
-      <div className={`px-2 py-4 rounded-lg shadow-sm ${props.searchClassName ?? res.className}`}>
-        <SearchComponent<P>
-          cRef={searchRef}
-          onResetfn={(e) => {
-            formState.current = e;
-            paginationRef.current = {
-              pageNum: 1,
-              pageSize: initPageSize,
-            };
-            searchReset?.();
-            getTable();
-          }}
-          options={searchOptions ?? []}
-          count={showNum ?? 4}
-          onChange={(e) => {
-            formState.current = e;
-            paginationRef.current.pageNum = 1;
-            getTable();
-          }}
-        />
-      </div>
+      <SearchComponent<P>
+        className={`px-2 py-4 rounded-lg shadow-sm ${props.searchClassName ?? res.className}`}
+        cRef={searchRef}
+        onResetfn={(e) => {
+          formState.current = e;
+          paginationRef.current = {
+            pageNum: 1,
+            pageSize: initPageSize,
+          };
+          searchReset?.();
+          getTable();
+        }}
+        options={searchOptions ?? []}
+        count={showNum ?? 4}
+        onChange={(e) => {
+          formState.current = e;
+          paginationRef.current.pageNum = 1;
+          getTable();
+        }}
+      />
       {isFunction(children)
         ? isFunction(getCahrtDataFn)
           ? children({ loading: charLoading, chartData })
