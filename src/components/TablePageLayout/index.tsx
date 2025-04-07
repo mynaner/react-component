@@ -65,6 +65,8 @@ interface TablePageLayoutProps<T, P extends Object, C>
   initPageSize?: number;
   // 排序 key 字段
   orderByName?: string;
+  // 
+  searchClassName?: string;
 }
 
 /**
@@ -230,25 +232,27 @@ export const YLayoutTable = <
 
   return (
     <Flex vertical gap="middle">
-      <SearchComponent<P>
-        cRef={searchRef}
-        onResetfn={(e) => {
-          formState.current = e;
-          paginationRef.current = {
-            pageNum: 1,
-            pageSize: initPageSize,
-          };
-          searchReset?.();
-          getTable();
-        }}
-        options={searchOptions ?? []}
-        count={showNum ?? 4}
-        onChange={(e) => {
-          formState.current = e;
-          paginationRef.current.pageNum = 1;
-          getTable();
-        }}
-      />
+      <div className={props.searchClassName ??= ""}>
+        <SearchComponent<P>
+          cRef={searchRef}
+          onResetfn={(e) => {
+            formState.current = e;
+            paginationRef.current = {
+              pageNum: 1,
+              pageSize: initPageSize,
+            };
+            searchReset?.();
+            getTable();
+          }}
+          options={searchOptions ?? []}
+          count={showNum ?? 4}
+          onChange={(e) => {
+            formState.current = e;
+            paginationRef.current.pageNum = 1;
+            getTable();
+          }}
+        />
+      </div>
       {isFunction(children)
         ? isFunction(getCahrtDataFn)
           ? children({ loading: charLoading, chartData })
