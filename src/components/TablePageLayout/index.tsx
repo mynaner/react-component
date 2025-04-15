@@ -30,7 +30,7 @@ export interface TablePageLayoutRefProps<P extends Object = Object> {
     isResetConst?: boolean;
   }) => void;
 }
-interface TablePageLayoutProps<T, P extends Object, C>
+interface TablePageLayoutProps<T, P extends Object>
   extends Omit<TableProps<T>, "title" | "columns" | "children" | "pagination"> {
   columns: YColumnsType<T>;
   searchReset?: () => void;
@@ -46,8 +46,6 @@ interface TablePageLayoutProps<T, P extends Object, C>
     params: P,
     data?: Object
   ) => Promise<IPage<T> | T[] | undefined>;
-  /// 图表方法
-  getCahrtDataFn?: ((params: Object) => Promise<C | undefined>) | false;
   /// 搜索对象
   searchOptions?: FormOptionType[];
   title?: React.ReactNode;
@@ -57,8 +55,10 @@ interface TablePageLayoutProps<T, P extends Object, C>
   ///
   children?:
   | JSX.Element
-  | JSX.Element[]
-  | ((e: { loading?: boolean; chartData?: C }) => JSX.Element);
+  | ((e: {
+    search?: { params?: P; data?: P };
+    dataSource?: T[];
+  }) => JSX.Element);
   /// 是否自动执行请求 默认true
   isRequest?: boolean;
   // 默认每页条数
@@ -71,26 +71,23 @@ interface TablePageLayoutProps<T, P extends Object, C>
 
 /**
  * T getTableFn 返回参数
- * P getTableFn 接收参数
- * C getCahrtDataFn 返回参数
+ * P getTableFn 接收参数 
  * @param props
  * @returns
  */
 export const YLayoutTable = <
   T extends Object,
   P extends Object = Object,
-  C extends Object = Object
 >(
-  props: TablePageLayoutProps<T, P, C>
+  props: TablePageLayoutProps<T, P>
 ) => {
   const {
     searchOptions,
     getTableFn,
     headerRight,
-    showNum,
+    showNum = 4,
     title,
     children,
-    getCahrtDataFn,
     isRequest = true,
     initPageSize = 10,
     onChange,
@@ -112,10 +109,6 @@ export const YLayoutTable = <
   });
   /// 请求状态
   const [loading, setLoading] = useState<boolean>();
-  /// 图表的请求状态
-  const [charLoading, setCharLoading] = useState<boolean>();
-  /// 图表请求到的数据
-  const [chartData, setChartData] = useState<C>();
   /// 缓冲当前请求的参数
   const [serachData, setSearchData] = useState<{ params?: P; data?: P }>({
     params: undefined,
@@ -135,9 +128,6 @@ export const YLayoutTable = <
     const fParams = getFParams(formState.current as Paging, searchOptions);
 
     try {
-      /// 当分页 pageNum 为1 的时候 并且有children 再获取图表数据
-      if (page.pageNum == 1) getCahrtData(fParams);
-
       setLoading(true);
       setSearchData({
         params: { ...fParams.param, ...page, ...constState.current?.param } as P,
@@ -162,51 +152,12 @@ export const YLayoutTable = <
     }
   };
 
-  // /// 点击搜索查询数据
-  // const onChangeSearch = (e?: P, isReset?: boolean) => {
-  //   setFormState(e);
-  //   if (isReset) {
-  //     const { total, ...page } = paginationRef.current;
-  //     getTable(page, e);
-  //   } else {
-  //     getTable({ pageNum: 1, pageSize: 10 }, e);
-  //   }
-  // };
 
   /// 页面初始化后获取图表数据
   useEffect(() => {
     if (isRequest) searchRef.current?.onSearch?.();
   }, []);
 
-  /// 获取图表数据
-  const getCahrtData = async (data: Paging) => {
-    if (getCahrtDataFn == false) return;
-    const { pageNum, pageSize, ...params } = data;
-
-    try {
-      setCharLoading(true);
-      const res = await getCahrtDataFn?.({ ...params.param, ...params.data });
-      setChartData(res);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setCharLoading(false);
-    }
-  };
-
-  // const initGetData = () => {
-  //   if (searchOptions?.filter((e) => e.children || e.list)?.length) {
-  //     searchRef.current?.onSearch?.();
-  //   } else {
-  //     const ls = searchOptions?.filter((e) => !(e.children || e.list));
-  //     const keyValue: P | { [key: string]: any } = {};
-  //     ls?.forEach((e) => {
-  //       keyValue[e.name] = e.initialValue;
-  //     });
-
-  //     onChangeSearch(keyValue);
-  //   }
-  // };
 
   /// 对外暴露 函数
   useImperativeHandle(
@@ -245,7 +196,7 @@ export const YLayoutTable = <
           getTable();
         }}
         options={searchOptions ?? []}
-        count={showNum ?? 4}
+        count={showNum}
         onChange={(e) => {
           formState.current = e;
           paginationRef.current.pageNum = 1;
@@ -253,34 +204,20 @@ export const YLayoutTable = <
         }}
       />
       {isFunction(children)
-        ? isFunction(getCahrtDataFn)
-          ? children({ loading: charLoading, chartData })
-          : undefined
+        ? children?.({
+          search: serachData,
+          dataSource,
+        })
         : children}
       <YTable<T>
-
         dataSource={dataSource}
         pagination={isPagination ? paginationRef.current : undefined}
         loading={loading}
         onChange={(e, c, d, v) => {
           let orderBy: string | undefined = undefined;
-          if (isObject(d) && !isEmpty(d)) {
-            if (isArray(d)) {
-              // 多列排序,暂时不支持 因为 orderBy 非数组
-              // d.forEach((e) => {
-              //   let order = "asc";
-              //   if (e.order == "descend") order = "desc";
-              //   orderBy = `${e.field} ${order}`;
-              // });
-            } else {
-              if (!d.order) {
-                orderBy = ""
-              } else {
-                let order = "asc";
-                if (d.order == "descend") order = "desc";
-                orderBy = `${d.field} ${order}`;
-              }
-            }
+          if (isObject(d) && !isEmpty(d) && !isArray(d)) {
+            // 多列排序,暂时不支持 因为 orderBy 非数组
+            orderBy = d.order ? `${d.field} ${d.order == "descend" ? "desc" : "asc"}` : "";
           }
           let fromat: {
             [key: string]: FilterValue | Key | boolean | undefined;
