@@ -1,5 +1,12 @@
 
 
+## [0.4.0](https://github.com/mynaner/-yzt-react-component/compare/v0.3.11...v0.4.0) (2025-04-15)
+
+
+### ✨新功能
+
+* 移除图表内部请求 ([fb94044](https://github.com/mynaner/-yzt-react-component/commit/fb940442e49924ed5cab0013879037f1b7ca1e2a))
+
 ## [0.3.11](https://github.com/mynaner/-yzt-react-component/compare/v0.3.10...v0.3.11) (2025-04-07)
 
 
