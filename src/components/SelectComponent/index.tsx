@@ -1,7 +1,7 @@
 /*
  * @Date: 2022-11-27 23:32:29
  * @LastEditors: myclooe 994386508@qq.com
- * @LastEditTime: 2025-02-21 11:44:30
+ * @LastEditTime: 2025-06-29 16:08:52
  * @FilePath: /yzt-react-component/src/components/SelectComponent/index.tsx
  */
 import { Select, SelectProps } from "antd";
@@ -31,8 +31,8 @@ export const SelectComponent = <T extends object, P = object>(
   const [list, setList] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onDropdownVisibleChange = async () => {
-    if (list.length == 0) {
+  const onDropdownVisibleChange = async (force?: boolean) => {
+    if (list.length == 0 && force) {
       try {
         setLoading(true);
         const res = await getDataFn?.(params);
@@ -48,6 +48,10 @@ export const SelectComponent = <T extends object, P = object>(
       onDropdownVisibleChange();
     }
   }, [res.value]);
+
+  useEffect(() => {
+    onDropdownVisibleChange(true);
+  }, [params]);
 
   return (
     <Select<T>
