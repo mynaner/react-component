@@ -1,5 +1,12 @@
 
 
+## [0.4.1](https://github.com/mynaner/-yzt-react-component/compare/v0.4.0...v0.4.1) (2025-06-29)
+
+
+### 🐞问题修复
+
+* select params 发生变化重新请求 ([74563b4](https://github.com/mynaner/-yzt-react-component/commit/74563b44403ca3eda4176bfb8cbd2ca5df2be7c0))
+
 ## [0.4.0](https://github.com/mynaner/-yzt-react-component/compare/v0.3.11...v0.4.0) (2025-04-15)
 
 
